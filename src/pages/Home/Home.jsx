@@ -1,8 +1,8 @@
+import Layout from "../../components/Layout/Layout";
 
 function Home() {
   return (
-    <div>
-    </div>
+    <Layout />
   );
 }
 
