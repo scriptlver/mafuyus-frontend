@@ -75,19 +75,20 @@ function Layout() {
         className="absolute pointer-events-none"
       />
 
-      <button
+      <span
         onClick={() => navigate("/cardslist")}
+        className="absolute cursor-pointer text-white hover:text-pink-300 transition-colors duration-300"
         style={{
-          bottom: "20vh",
-          left: "61vw",
-          backgroundColor: "#ff74ff",
+          bottom: "18vh",
+          left: "60vw",
           fontFamily: "'Cormorant Garamond', serif",
+          fontSize: "1.6rem",
+          opacity: 0.8,
+          letterSpacing: "3px",
         }}
-        className="absolute text-white px-8 py-2 rounded-lg cursor-pointer shadow-lg text-xl"
       >
         Click here
-      </button>
-
+      </span>
       <img
         src={dress}
         alt=""
