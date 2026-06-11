@@ -81,13 +81,27 @@ function Layout() {
         style={{
           bottom: "18vh",
           left: "60vw",
-          fontFamily: "'Cormorant Garamond', serif",
+          fontFamily: "'Cormorant', serif",
           fontSize: "1.8rem",
           opacity: 0.8,
           letterSpacing: "4px",
         }}
       >
         Click here
+      </span>
+
+      <span
+        className="absolute"
+        style={{
+          bottom: "9vh",
+          right: "3vw",
+          fontFamily: "'Cormorant', serif",
+          fontSize: "16px",
+          color: "rgba(255,255,255,0.4)",
+          letterSpacing: "2px",
+        }}
+      >
+        design by lavi
       </span>
       <img
         src={dress}

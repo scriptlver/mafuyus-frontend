@@ -1,4 +1,7 @@
 import mafuyuCard from "../../images/cards/mafuyu-card.webp";
+import mafuyuCard2 from "../../images/cards/mafuyu-card-2.webp";
+
+const cards = [mafuyuCard, mafuyuCard2];
 
 function CardsList() {
   return (
@@ -14,11 +17,11 @@ function CardsList() {
         className="grid gap-4"
         style={{ gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))" }}
       >
-        {Array.from({ length: 9 }).map((_, index) => (
+        {cards.map((card, index) => (
           <img
             key={index}
-            src={mafuyuCard}
-            alt="Mafuyu Card"
+            src={card}
+            alt={`Card ${index + 1}`}
             className="w-full rounded-sm"
           />
         ))}
