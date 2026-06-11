@@ -82,9 +82,9 @@ function Layout() {
           bottom: "18vh",
           left: "60vw",
           fontFamily: "'Cormorant Garamond', serif",
-          fontSize: "1.6rem",
+          fontSize: "1.8rem",
           opacity: 0.8,
-          letterSpacing: "3px",
+          letterSpacing: "4px",
         }}
       >
         Click here
