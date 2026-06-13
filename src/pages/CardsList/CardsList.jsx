@@ -1,7 +1,11 @@
+import cardsListTitle from "../../images/CardsList/cards-list.png";
 import mafuyuCard from "../../images/cards/mafuyu-card.webp";
 import mafuyuCard2 from "../../images/cards/mafuyu-card-2.webp";
 
-const cards = [mafuyuCard, mafuyuCard2];
+const cards = [mafuyuCard, mafuyuCard2, mafuyuCard, mafuyuCard2, mafuyuCard, mafuyuCard2, mafuyuCard, mafuyuCard2, 
+  mafuyuCard, mafuyuCard2, mafuyuCard, mafuyuCard2, mafuyuCard, mafuyuCard2, mafuyuCard, mafuyuCard2, mafuyuCard, mafuyuCard2,
+  mafuyuCard
+];
 
 function CardsList() {
   return (
@@ -9,9 +13,13 @@ function CardsList() {
       className="w-full min-h-screen px-12 py-6"
       style={{ backgroundColor: "#3E3259" }}
     >
-      <h1 className="text-4xl font-bold text-white text-center mb-10">
-        Cards List
-      </h1>
+      <div className="flex justify-center mb-8">
+        <img
+          src={cardsListTitle}
+          alt="Cards List"
+          className="h-18 object-contain"
+        />
+      </div>
 
       <div
         className="grid gap-4"
