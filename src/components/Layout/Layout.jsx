@@ -153,7 +153,7 @@ function Layout() {
           style={{
             width: "22vw",
             top: "30%",
-            left: "95%",
+            left: "94%",
             transform: "translateX(-50%)",
             opacity: 0.8,
           }}
