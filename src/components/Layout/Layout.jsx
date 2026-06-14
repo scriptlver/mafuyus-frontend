@@ -153,7 +153,7 @@ function Layout() {
           style={{
             width: "22vw",
             top: "30%",
-            left: "94%",
+            left: "86%",
             transform: "translateX(-50%)",
             opacity: 0.8,
           }}
@@ -166,7 +166,7 @@ function Layout() {
           style={{
             width: "22vw",
             top: "34%",
-            right: "83%",
+            right: "75%",
             opacity: 0.8,
           }}
         />
@@ -177,7 +177,7 @@ function Layout() {
           className="absolute pointer-events-none"
           style={{
             width: "60vw",
-            top: "8%",
+            top: "6%",
             left: "50%",
             transform: "translateX(-50%)",
           }}
@@ -189,7 +189,7 @@ function Layout() {
           className="absolute pointer-events-none"
           style={{
             width: "62vw",
-            top: "17%",
+            top: "15%",
             left: "50%",
             transform: "translateX(-50%)",
           }}
@@ -199,11 +199,11 @@ function Layout() {
           onClick={() => navigate("/cardslist")}
           className="absolute cursor-pointer text-white hover:text-pink-300 transition-colors duration-300"
           style={{
-            top: "31%",
+            top: "32%",
             left: "50%",
             transform: "translateX(-50%)",
             fontFamily: "'Cormorant', serif",
-            fontSize: "1.6rem",
+            fontSize: "1.5rem",
             opacity: 0.8,
             letterSpacing: "4px",
           }}
@@ -215,12 +215,11 @@ function Layout() {
           alt=""
           className="absolute pointer-events-none"
           style={{
-            width: "105vw",
+            width: "90vw",
             height: "auto",
-            bottom: "-15vh",
+            bottom: "80px",
             left: "50%",
             transform: "translateX(-50%)",
-            filter: "drop-shadow(0 0 30px rgba(181,140,255,.35))",
           }}
         />
 
@@ -231,12 +230,12 @@ function Layout() {
             left: "50%",
             transform: "translateX(-50%)",
             fontFamily: "'Cormorant', serif",
-            fontSize: "13px",
+            fontSize: "15px",
             color: "rgba(255,255,255,0.45)",
             letterSpacing: "2px",
           }}
         >
-          design by lavi
+          by lavi
         </span>
 
         <div className="px-4 pb-4">
