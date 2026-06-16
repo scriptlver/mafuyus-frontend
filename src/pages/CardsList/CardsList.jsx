@@ -1,36 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "../../components/Button/Button";
 import AddCard from "../../components/AddCard/AddCard";
-import cardsListTitle from "../../images/CardsList/cards-list.png";
-import mafuyuCard from "../../images/cards/mafuyu-card.webp";
-import mafuyuCard2 from "../../images/cards/mafuyu-card-2.webp";
+import { api } from "../../services/api";
 
-const cards = [
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-  mafuyuCard2,
-  mafuyuCard,
-];
+import cardsListTitle from "../../images/CardsList/cards-list.png";
 
 function CardsList() {
   const isAdmin = localStorage.getItem("admin") === "true";
+
   const [showModal, setShowModal] = useState(false);
+  const [cards, setCards] = useState([]);
+
+  async function loadCards() {
+    try {
+      const response = await api.get("/cards");
+
+      setCards(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar cards:", error);
+    }
+  }
+
+  useEffect(() => {
+    loadCards();
+  }, []);
 
   return (
     <div
@@ -48,7 +42,9 @@ function CardsList() {
 
         {isAdmin && (
           <div className="absolute right-80 top-1/2 -translate-y-1/2">
-            <Button onClick={() => setShowModal(true)}>Adicionar Card</Button>
+            <Button onClick={() => setShowModal(true)}>
+              Adicionar Card
+            </Button>
           </div>
         )}
       </div>
@@ -59,17 +55,22 @@ function CardsList() {
           gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
         }}
       >
-        {cards.map((card, index) => (
+        {cards.map((card) => (
           <img
-            key={index}
-            src={card}
-            alt={`Card ${index + 1}`}
+            key={card._id}
+            src={card.image}
+            alt="Card"
             className="w-full rounded-sm"
           />
         ))}
       </div>
 
-      {showModal && <AddCard onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <AddCard
+          onClose={() => setShowModal(false)}
+          onCardAdded={loadCards}
+        />
+      )}
     </div>
   );
 }

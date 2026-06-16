@@ -1,14 +1,30 @@
 import { useState } from "react";
 import { ImageIcon } from "lucide-react";
 
-function AddCard({ onClose }) {
+import { api } from "../../services/api";
+
+function AddCard({ onClose, onCardAdded }) {
   const [preview, setPreview] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
     if (file) {
       setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      await api.post("/cards", {
+        image: imageUrl,
+      });
+
+      onCardAdded();
+      onClose();
+    } catch (error) {
+      console.error("Erro ao salvar card:", error);
     }
   };
 
@@ -31,29 +47,30 @@ function AddCard({ onClose }) {
           </label>
 
           <div className="w-full h-48 border-2 border-dashed border-[#624F8C] rounded-xl flex items-center justify-center mb-4 overflow-hidden">
-  {preview ? (
-    <img
-      src={preview}
-      alt="Preview"
-      className="w-full h-full object-contain"
-    />
-  ) : (
-    <div className="flex flex-col items-center gap-2">
-      <ImageIcon
-        size={60}
-        className="text-[#8B74B8]"
-        strokeWidth={1.5}
-      />
+            {preview ? (
+              <img
+                src={preview}
+                alt="Preview"
+                className="w-full h-full object-contain"
+              />
+            ) : (
+              <div className="flex flex-col items-center gap-2">
+                <ImageIcon
+                  size={60}
+                  className="text-[#8B74B8]"
+                  strokeWidth={1.5}
+                />
 
-      <span
-        className="text-gray-300 text-lg"
-        style={{ fontFamily: "'Cormorant', serif" }}
-      >
-        Escolha uma imagem
-      </span>
-    </div>
-  )}
-</div>
+                <span
+                  className="text-gray-300 text-lg"
+                  style={{ fontFamily: "'Cormorant', serif" }}
+                >
+                  Escolha uma imagem
+                </span>
+              </div>
+            )}
+          </div>
+
           <input
             type="file"
             accept="image/*"
@@ -72,6 +89,14 @@ function AddCard({ onClose }) {
               file:font-semibold
             "
           />
+
+          <input
+            type="text"
+            placeholder="URL da imagem"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            className="w-full mt-4 p-3 rounded-xl bg-[#624F8C] text-white outline-none"
+          />
         </div>
 
         <div className="flex justify-end gap-3">
@@ -82,7 +107,10 @@ function AddCard({ onClose }) {
             Cancelar
           </button>
 
-          <button className="px-4 py-2 rounded-xl bg-[#624F8C] text-white">
+          <button
+            onClick={handleSave}
+            className="px-4 py-2 rounded-xl bg-[#624F8C] text-white"
+          >
             Salvar
           </button>
         </div>
