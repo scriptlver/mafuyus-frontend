@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ImageIcon } from "lucide-react";
 
 function AddCard({ onClose }) {
   const [preview, setPreview] = useState(null);
@@ -30,22 +31,29 @@ function AddCard({ onClose }) {
           </label>
 
           <div className="w-full h-48 border-2 border-dashed border-[#624F8C] rounded-xl flex items-center justify-center mb-4 overflow-hidden">
-            {preview ? (
-              <img
-                src={preview}
-                alt="Preview"
-                className="w-full h-full object-contain"
-              />
-            ) : (
-              <span
-                className="text-gray-300 text-lg"
-                style={{ fontFamily: "'Cormorant', serif" }}
-              >
-                Prévia da imagem
-              </span>
-            )}
-          </div>
+  {preview ? (
+    <img
+      src={preview}
+      alt="Preview"
+      className="w-full h-full object-contain"
+    />
+  ) : (
+    <div className="flex flex-col items-center gap-2">
+      <ImageIcon
+        size={60}
+        className="text-[#8B74B8]"
+        strokeWidth={1.5}
+      />
 
+      <span
+        className="text-gray-300 text-lg"
+        style={{ fontFamily: "'Cormorant', serif" }}
+      >
+        Escolha uma imagem
+      </span>
+    </div>
+  )}
+</div>
           <input
             type="file"
             accept="image/*"
