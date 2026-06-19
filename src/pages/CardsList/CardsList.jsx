@@ -15,10 +15,19 @@ function CardsList() {
   async function loadCards() {
     try {
       const response = await api.get("/cards");
-
       setCards(response.data);
     } catch (error) {
       console.error("Erro ao buscar cards:", error);
+    }
+  }
+
+  async function deleteCard(id) {
+    if (!confirm("Deletar este card?")) return;
+    try {
+      await api.delete(`/cards/${id}`);
+      loadCards();
+    } catch (error) {
+      console.error("Erro ao deletar card:", error);
     }
   }
 
@@ -42,34 +51,38 @@ function CardsList() {
 
         {isAdmin && (
           <div className="absolute right-80 top-1/2 -translate-y-1/2">
-            <Button onClick={() => setShowModal(true)}>
-              Adicionar Card
-            </Button>
+            <Button onClick={() => setShowModal(true)}>Adicionar Card</Button>
           </div>
         )}
       </div>
 
-      <div
-        className="grid gap-4"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-        }}
-      >
+      <div className="grid grid-cols-5 gap-4">
         {cards.map((card) => (
-          <img
-            key={card._id}
-            src={card.image}
-            alt="Card"
-            className="w-full rounded-sm"
-          />
+          <div key={card._id} className="relative group">
+            <div
+              className="overflow-hidden rounded-lg"
+              style={{ aspectRatio: "1000 / 571" }}
+            >
+              <img
+                src={`http://localhost:3000/uploads/${card.image}`}
+                alt="Card"
+                className="w-full h-full object-cover hover:scale-105 transition duration-300"
+              />
+            </div>
+            {isAdmin && (
+              <button
+                onClick={() => deleteCard(card._id)}
+                className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                Deletar
+              </button>
+            )}
+          </div>
         ))}
       </div>
 
       {showModal && (
-        <AddCard
-          onClose={() => setShowModal(false)}
-          onCardAdded={loadCards}
-        />
+        <AddCard onClose={() => setShowModal(false)} onCardAdded={loadCards} />
       )}
     </div>
   );
