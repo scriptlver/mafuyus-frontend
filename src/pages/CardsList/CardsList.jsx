@@ -11,6 +11,7 @@ function CardsList() {
 
   const [showModal, setShowModal] = useState(false);
   const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   async function loadCards() {
     try {
@@ -19,6 +20,16 @@ function CardsList() {
     } catch (error) {
       console.error("Erro ao buscar cards:", error);
     }
+  }
+
+  function formatFileName(filename) {
+    return filename
+      .split("-")
+      .slice(1)
+      .join("-")
+      .replace(/\.[^/.]+$/, "")
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
   }
 
   async function deleteCard(id) {
@@ -58,20 +69,34 @@ function CardsList() {
 
       <div className="grid grid-cols-5 gap-4">
         {cards.map((card) => (
-          <div key={card._id} className="relative group">
+          <div
+            key={card._id}
+            className="relative group cursor-pointer"
+            onClick={() => setSelectedCard(card)}
+          >
             <div
-              className="overflow-hidden rounded-lg"
+              className="overflow-hidden rounded-lg relative"
               style={{ aspectRatio: "1000 / 571" }}
             >
               <img
                 src={`http://localhost:3000/uploads/${card.image}`}
-                alt="Card"
-                className="w-full h-full object-cover hover:scale-105 transition duration-300"
+                alt={formatFileName(card.image)}
+                className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
               />
+
+              <div className="absolute inset-0 bg-[#3E3259]/70 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                <span className="text-white text-sm text-center px-3 break-all">
+                  {formatFileName(card.image)}
+                </span>
+              </div>
             </div>
+
             {isAdmin && (
               <button
-                onClick={() => deleteCard(card._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteCard(card._id);
+                }}
                 className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 Deletar
@@ -83,6 +108,35 @@ function CardsList() {
 
       {showModal && (
         <AddCard onClose={() => setShowModal(false)} onCardAdded={loadCards} />
+      )}
+
+      {selectedCard && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+          onClick={() => setSelectedCard(null)}
+        >
+          <div
+            className="bg-[#3E3259] p-4 rounded-lg max-w-3xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={`http://localhost:3000/uploads/${selectedCard.image}`}
+              alt={formatFileName(selectedCard.image)}
+              className="w-full max-h-[70vh] object-contain rounded"
+            />
+
+            <p className="text-white text-center mt-4 text-lg">
+              {formatFileName(selectedCard.image)}
+            </p>
+
+            <button
+              className="mt-4 w-full bg-red-500 text-white py-2 rounded"
+              onClick={() => setSelectedCard(null)}
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
