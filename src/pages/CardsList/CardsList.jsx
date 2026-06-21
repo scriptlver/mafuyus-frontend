@@ -13,6 +13,12 @@ function CardsList() {
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
 
+  const [editingCard, setEditingCard] = useState(null);
+  const [newImage, setNewImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
+
+  const [newTitle, setNewTitle] = useState("");
+
   async function loadCards() {
     try {
       const response = await api.get("/cards");
@@ -34,11 +40,40 @@ function CardsList() {
 
   async function deleteCard(id) {
     if (!confirm("Deletar este card?")) return;
+
     try {
       await api.delete(`/cards/${id}`);
       loadCards();
     } catch (error) {
       console.error("Erro ao deletar card:", error);
+    }
+  }
+
+  async function updateCard() {
+    if (!editingCard) return;
+
+    try {
+      const formData = new FormData();
+
+      if (newImage) {
+        formData.append("image", newImage);
+      }
+
+      if (newTitle.trim()) {
+        formData.append("name", newTitle);
+      }
+
+      await api.put(`/cards/${editingCard._id}`, formData);
+
+      setEditingCard(null);
+      setNewImage(null);
+      setPreviewImage("");
+      setSelectedCard(null);
+      setNewTitle("");
+
+      loadCards();
+    } catch (error) {
+      console.error("Erro ao atualizar card:", error);
     }
   }
 
@@ -51,6 +86,7 @@ function CardsList() {
       className="w-full min-h-screen px-12 py-6"
       style={{ backgroundColor: "#3E3259" }}
     >
+      {/* HEADER */}
       <div className="relative mb-8">
         <div className="flex justify-center">
           <img
@@ -62,11 +98,14 @@ function CardsList() {
 
         {isAdmin && (
           <div className="absolute right-80 top-1/2 -translate-y-1/2">
-            <Button onClick={() => setShowModal(true)}>Adicionar Card</Button>
+            <Button onClick={() => setShowModal(true)}>
+              Adicionar Card
+            </Button>
           </div>
         )}
       </div>
 
+      {/* CARDS */}
       <div className="grid grid-cols-5 gap-4">
         {cards.map((card) => (
           <div
@@ -86,7 +125,7 @@ function CardsList() {
 
               <div className="absolute inset-0 bg-[#3E3259]/70 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <span className="text-white text-sm text-center px-3 break-all">
-                  {formatFileName(card.image)}
+                  {card.name || formatFileName(card.image)}
                 </span>
               </div>
             </div>
@@ -106,10 +145,15 @@ function CardsList() {
         ))}
       </div>
 
+      {/* ADD CARD MODAL */}
       {showModal && (
-        <AddCard onClose={() => setShowModal(false)} onCardAdded={loadCards} />
+        <AddCard
+          onClose={() => setShowModal(false)}
+          onCardAdded={loadCards}
+        />
       )}
 
+      {/* VIEW CARD MODAL */}
       {selectedCard && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
@@ -121,20 +165,117 @@ function CardsList() {
           >
             <img
               src={`http://localhost:3000/uploads/${selectedCard.image}`}
-              alt={formatFileName(selectedCard.image)}
+              alt={selectedCard.name}
               className="w-full max-h-[70vh] object-contain rounded"
             />
 
             <p className="text-white text-center mt-4 text-lg">
-              {formatFileName(selectedCard.image)}
+              {selectedCard.name || formatFileName(selectedCard.image)}
             </p>
 
-            <button
-              className="mt-4 w-full bg-red-500 text-white py-2 rounded"
-              onClick={() => setSelectedCard(null)}
-            >
-              Fechar
-            </button>
+            <div className="flex gap-2 mt-4">
+              {isAdmin && (
+                <>
+                  <button
+                    className="flex-1 bg-[#624F8C] text-white py-2 rounded"
+                    onClick={() => {
+                      setEditingCard(selectedCard);
+                      setPreviewImage(
+                        `http://localhost:3000/uploads/${selectedCard.image}`
+                      );
+                      setNewTitle(selectedCard.name || "");
+                    }}
+                  >
+                    Editar
+                  </button>
+                </>
+              )}
+
+              <button
+                className="flex-1 bg-red-500 text-white py-2 rounded"
+                onClick={() => setSelectedCard(null)}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* EDIT MODAL */}
+      {editingCard && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[60]"
+          onClick={() => setEditingCard(null)}
+        >
+          <div
+            className="bg-[#3E3259] p-6 rounded-xl w-[500px]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-white text-2xl mb-4">
+              Editar Card
+            </h2>
+
+            {/* TITLE EDIT */}
+            <input
+              type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Editar título do card"
+              className="w-full mb-4 px-3 py-2 rounded bg-[#2E2442] text-white outline-none"
+            />
+
+            {/* IMAGE PREVIEW */}
+            <div className="border-2 border-dashed border-[#624F8C] rounded-xl h-64 flex items-center justify-center overflow-hidden mb-4">
+              {previewImage && (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="w-full h-full object-contain"
+                />
+              )}
+            </div>
+
+            {/* FILE INPUT */}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                setNewImage(file);
+                setPreviewImage(URL.createObjectURL(file));
+              }}
+              className="
+                w-full text-sm text-white
+                file:mr-4 file:px-4 file:py-2
+                file:rounded-xl file:border-0
+                file:bg-[#624F8C] file:text-white
+              "
+            />
+
+            {/* ACTIONS */}
+            <div className="flex gap-2 mt-6">
+              <button
+                className="flex-1 bg-green-600 text-white py-2 rounded"
+                onClick={updateCard}
+              >
+                Salvar
+              </button>
+
+              <button
+                className="flex-1 bg-red-500 text-white py-2 rounded"
+                onClick={() => {
+                  setEditingCard(null);
+                  setNewImage(null);
+                  setPreviewImage("");
+                  setNewTitle("");
+                }}
+              >
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
       )}
