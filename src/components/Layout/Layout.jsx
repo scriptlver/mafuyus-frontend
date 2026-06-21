@@ -111,19 +111,19 @@ function Layout() {
         </span>
 
         <span
-  className="absolute"
-  style={{
-    bottom: "9vh",
-    right: "3vw",
-    fontFamily: "'Cormorant', serif",
-    fontSize: "16px",
-    color: "rgba(255,255,255,0.4)",
-    letterSpacing: "2px",
-  }}
->
-  design by{" "}
-  <span
-    className="
+          className="absolute"
+          style={{
+            bottom: "9vh",
+            right: "3vw",
+            fontFamily: "'Cormorant', serif",
+            fontSize: "16px",
+            color: "rgba(255,255,255,0.4)",
+            letterSpacing: "2px",
+          }}
+        >
+          design by{" "}
+          <span
+            className="
       inline-block
       cursor-default
       transition-all
@@ -133,10 +133,10 @@ function Layout() {
       hover:brightness-110
       hover:drop-shadow-[0_0_10px_rgba(255,220,255,.4)]
     "
-  >
-    lavi
-  </span>
-</span>
+          >
+            lavi
+          </span>
+        </span>
 
         <img
           src={dress}
@@ -224,29 +224,40 @@ function Layout() {
         <img
           src={mafuyu2}
           alt=""
-          className={hoverImage}
+          className="
+    absolute
+    left-1/2
+    -translate-x-1/2
+    transition-all
+    duration-500
+    ease-out
+    hover:scale-[1.03]
+    hover:-translate-y-1
+    hover:brightness-105
+    hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.18)]
+    hover:z-30
+    hover:-translate-x-1/2
+  "
           style={{
             width: "90vw",
             bottom: "80px",
-            left: "50%",
-            transform: "translateX(-50%)",
           }}
         />
 
         <span
-  className="absolute"
-  style={{
-    bottom: "5%",
-    left: "50%",
-    transform: "translateX(-50%)",
-    fontFamily: "'Cormorant', serif",
-    fontSize: "15px",
-    color: "rgba(255,255,255,0.45)",
-  }}
->
-  by{" "}
-  <span
-    className="
+          className="absolute"
+          style={{
+            bottom: "5%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontFamily: "'Cormorant', serif",
+            fontSize: "15px",
+            color: "rgba(255,255,255,0.45)",
+          }}
+        >
+          by{" "}
+          <span
+            className="
       inline-block
       transition-all
       duration-500
@@ -254,10 +265,10 @@ function Layout() {
       hover:text-pink-200
       hover:drop-shadow-[0_0_10px_rgba(255,220,255,.4)]
     "
-  >
-    lavi
-  </span>
-</span>
+          >
+            lavi
+          </span>
+        </span>
 
         <div className="px-4 pb-4">
           <img src={stars} alt="" className="w-full opacity-70" />
