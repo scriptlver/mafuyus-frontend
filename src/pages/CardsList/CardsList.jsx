@@ -86,7 +86,6 @@ function CardsList() {
       className="w-full min-h-screen px-12 py-6"
       style={{ backgroundColor: "#3E3259" }}
     >
-      {/* HEADER */}
       <div className="relative mb-8">
         <div className="flex justify-center">
           <img
@@ -98,15 +97,12 @@ function CardsList() {
 
         {isAdmin && (
           <div className="absolute right-80 top-1/2 -translate-y-1/2">
-            <Button onClick={() => setShowModal(true)}>
-              Adicionar Card
-            </Button>
+            <Button onClick={() => setShowModal(true)}>Add Card</Button>
           </div>
         )}
       </div>
 
-      {/* CARDS */}
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
         {cards.map((card) => (
           <div
             key={card._id}
@@ -138,22 +134,17 @@ function CardsList() {
                 }}
                 className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                Deletar
+                Delete
               </button>
             )}
           </div>
         ))}
       </div>
 
-      {/* ADD CARD MODAL */}
       {showModal && (
-        <AddCard
-          onClose={() => setShowModal(false)}
-          onCardAdded={loadCards}
-        />
+        <AddCard onClose={() => setShowModal(false)} onCardAdded={loadCards} />
       )}
 
-      {/* VIEW CARD MODAL */}
       {selectedCard && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
@@ -181,12 +172,12 @@ function CardsList() {
                     onClick={() => {
                       setEditingCard(selectedCard);
                       setPreviewImage(
-                        `http://localhost:3000/uploads/${selectedCard.image}`
+                        `http://localhost:3000/uploads/${selectedCard.image}`,
                       );
                       setNewTitle(selectedCard.name || "");
                     }}
                   >
-                    Editar
+                    Edit
                   </button>
                 </>
               )}
@@ -195,14 +186,13 @@ function CardsList() {
                 className="flex-1 bg-red-500 text-white py-2 rounded"
                 onClick={() => setSelectedCard(null)}
               >
-                Fechar
+                Close
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* EDIT MODAL */}
       {editingCard && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-[60]"
@@ -212,20 +202,16 @@ function CardsList() {
             className="bg-[#3E3259] p-6 rounded-xl w-[500px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-white text-2xl mb-4">
-              Editar Card
-            </h2>
+            <h2 className="text-white text-2xl mb-4">Edit Card</h2>
 
-            {/* TITLE EDIT */}
             <input
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              placeholder="Editar título do card"
+              placeholder="Edit title of the card"
               className="w-full mb-4 px-3 py-2 rounded bg-[#2E2442] text-white outline-none"
             />
 
-            {/* IMAGE PREVIEW */}
             <div className="border-2 border-dashed border-[#624F8C] rounded-xl h-64 flex items-center justify-center overflow-hidden mb-4">
               {previewImage && (
                 <img
@@ -236,32 +222,28 @@ function CardsList() {
               )}
             </div>
 
-            {/* FILE INPUT */}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (!file) return;
+            <label className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white font-semibold text-center block">
+              Choose image
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (!file) return;
 
-                setNewImage(file);
-                setPreviewImage(URL.createObjectURL(file));
-              }}
-              className="
-                w-full text-sm text-white
-                file:mr-4 file:px-4 file:py-2
-                file:rounded-xl file:border-0
-                file:bg-[#624F8C] file:text-white
-              "
-            />
+                  setNewImage(file);
+                  setPreviewImage(URL.createObjectURL(file));
+                }}
+              />
+            </label>
 
-            {/* ACTIONS */}
             <div className="flex gap-2 mt-6">
               <button
                 className="flex-1 bg-green-600 text-white py-2 rounded"
                 onClick={updateCard}
               >
-                Salvar
+                Save
               </button>
 
               <button
@@ -273,7 +255,7 @@ function CardsList() {
                   setNewTitle("");
                 }}
               >
-                Cancelar
+                Cancel
               </button>
             </div>
           </div>

@@ -44,60 +44,100 @@ function AddCard({ onClose, onCardAdded }) {
           className="text-white text-4xl font-semibold mb-6"
           style={{ fontFamily: "'Cormorant', serif" }}
         >
-          Adicionar Cards
+          Add Cards
         </h2>
 
         <div className="mb-6">
           <label className="block text-white font-semibold mb-2">
-            Imagens dos Cards
+            Images of the Cards
           </label>
 
-          <div className="w-full h-48 border-2 border-dashed border-[#624F8C] rounded-xl flex items-center justify-center mb-4 overflow-hidden">
-            {previews.length > 0 ? (
-              <div className="flex gap-2 overflow-x-auto p-2 w-full h-full">
-                {previews.map((src, i) => (
-                  <img
-                    key={i}
-                    src={src}
-                    alt={`Preview ${i + 1}`}
-                    className="h-full object-contain rounded"
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-2">
-                <ImageIcon
-                  size={60}
-                  className="text-[#8B74B8]"
-                  strokeWidth={1.5}
-                />
-                <span
-                  className="text-gray-300 text-lg"
-                  style={{ fontFamily: "'Cormorant', serif" }}
-                >
-                  Escolha as imagens
-                </span>
-              </div>
-            )}
+          <div
+  className="
+    w-full
+    rounded-2xl
+    bg-[#2E2442]
+    p-3
+    mb-4
+  "
+>
+  {files.length > 0 ? (
+    <div className="flex flex-col gap-2 max-h-[220px] overflow-y-auto">
+      {files.map((file, index) => (
+        <div
+          key={index}
+          className="
+            flex
+            items-center
+            justify-between
+            bg-[#4B3A6D]
+            rounded-xl
+            px-4
+            py-3
+          "
+        >
+          <div className="flex items-center gap-3 overflow-hidden">
+            <ImageIcon
+              size={22}
+              className="text-[#C9B2FF] shrink-0"
+            />
+
+            <span className="text-white truncate">
+              {file.name}
+            </span>
           </div>
 
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
+          <button
+            type="button"
+            onClick={() => {
+              const updated = files.filter((_, i) => i !== index);
+
+              setFiles(updated);
+
+              setPreviews(
+                updated.map((f) =>
+                  URL.createObjectURL(f)
+                )
+              );
+            }}
             className="
-              w-full text-sm text-white
-              file:mr-4 file:px-4 file:py-2
-              file:rounded-xl file:border-0
-              file:bg-[#624F8C] file:text-white
-              file:font-semibold
+              text-red-300
+              hover:text-red-200
+              text-sm
             "
-          />
+          >
+            Remove
+          </button>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div className="h-[120px] flex flex-col items-center justify-center gap-2">
+      <ImageIcon
+        size={40}
+        className="text-[#8B74B8]"
+      />
+
+      <span className="text-gray-300">
+        No images selected
+      </span>
+    </div>
+  )}
+</div>
+          <label className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white font-semibold text-center block">
+            Choose images
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+              className="hidden"
+            />
+          </label>
 
           {files.length > 0 && (
             <p className="text-gray-300 text-sm mt-2">
-              {files.length} imagem{files.length > 1 ? "s" : ""} selecionada
+              {files.length} image{files.length > 1 ? "s" : ""} selected
               {files.length > 1 ? "s" : ""}
             </p>
           )}
@@ -108,13 +148,13 @@ function AddCard({ onClose, onCardAdded }) {
             onClick={onClose}
             className="px-4 py-2 rounded-xl bg-gray-500 text-white"
           >
-            Cancelar
+            Cancel
           </button>
           <button
             onClick={handleSave}
             className="px-4 py-2 rounded-xl bg-[#624F8C] text-white"
           >
-            Salvar
+            Save
           </button>
         </div>
       </div>
