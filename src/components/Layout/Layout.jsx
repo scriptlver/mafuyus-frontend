@@ -12,6 +12,12 @@ import sticker from "../../images/layout/sticker.png";
 function Layout() {
   const navigate = useNavigate();
 
+  const hoverImage =
+    "absolute transition-all duration-500 ease-out hover:scale-[1.03] hover:-translate-y-1 hover:brightness-105 hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.18)] hover:z-30";
+
+  const hoverTitle =
+    "absolute transition-all duration-500 ease-out hover:scale-[1.05] hover:brightness-110 hover:drop-shadow-[0_0_14px_rgba(255,230,255,0.22)] hover:z-40";
+
   return (
     <>
       <div
@@ -25,64 +31,73 @@ function Layout() {
         <img
           src={stars2}
           alt=""
+          className="absolute pointer-events-none"
           style={{
             width: "11vw",
             bottom: "14vh",
             left: "50%",
             transform: "translateX(-50%)",
           }}
-          className="absolute pointer-events-none"
         />
 
         <img
           src={stars1}
           alt=""
+          className="absolute pointer-events-none"
           style={{
             width: "11vw",
             bottom: "36vh",
             left: "77%",
             transform: "translateX(-50%)",
           }}
-          className="absolute pointer-events-none"
         />
 
         <img
           src={mafuyu}
           alt=""
+          className={hoverImage}
           style={{
             height: "100vh",
-            width: "auto",
             bottom: 0,
             left: 0,
           }}
-          className="absolute pointer-events-none"
         />
 
         <img
           src={mafuyuTitle}
           alt=""
+          className={hoverTitle}
           style={{
             width: "30vw",
             bottom: "52vh",
             left: "44vw",
           }}
-          className="absolute pointer-events-none"
         />
 
         <img
           src={AsahinaTitle}
           alt=""
+          className={hoverTitle}
           style={{
             width: "30vw",
             bottom: "33vh",
             left: "48vw",
           }}
-          className="absolute pointer-events-none"
         />
 
         <span
           onClick={() => navigate("/cardslist")}
-          className="absolute cursor-pointer text-white hover:text-pink-300 transition-colors duration-300"
+          className="
+            absolute
+            cursor-pointer
+            text-white
+            transition-all
+            duration-500
+            ease-out
+            hover:scale-[1.05]
+            hover:text-pink-200
+            hover:drop-shadow-[0_0_12px_rgba(255,220,255,.45)]
+          "
           style={{
             bottom: "18vh",
             left: "60vw",
@@ -96,41 +111,53 @@ function Layout() {
         </span>
 
         <span
-          className="absolute"
-          style={{
-            bottom: "9vh",
-            right: "3vw",
-            fontFamily: "'Cormorant', serif",
-            fontSize: "16px",
-            color: "rgba(255,255,255,0.4)",
-            letterSpacing: "2px",
-          }}
-        >
-          design by lavi
-        </span>
+  className="absolute"
+  style={{
+    bottom: "9vh",
+    right: "3vw",
+    fontFamily: "'Cormorant', serif",
+    fontSize: "16px",
+    color: "rgba(255,255,255,0.4)",
+    letterSpacing: "2px",
+  }}
+>
+  design by{" "}
+  <span
+    className="
+      inline-block
+      cursor-default
+      transition-all
+      duration-500
+      hover:scale-[1.06]
+      hover:text-pink-200
+      hover:brightness-110
+      hover:drop-shadow-[0_0_10px_rgba(255,220,255,.4)]
+    "
+  >
+    lavi
+  </span>
+</span>
 
         <img
           src={dress}
           alt=""
+          className="absolute pointer-events-none"
           style={{
             height: "94vh",
-            width: "auto",
             bottom: 74,
             right: 0,
           }}
-          className="absolute pointer-events-none"
         />
 
         <img
           src={sticker}
           alt=""
+          className={hoverImage}
           style={{
             height: "32vh",
-            width: "auto",
             bottom: "12vh",
             left: "80vw",
           }}
-          className="absolute pointer-events-none"
         />
 
         <div className="px-8 pb-6">
@@ -147,34 +174,9 @@ function Layout() {
         </div>
 
         <img
-          src={stars2}
-          alt=""
-          className="absolute pointer-events-none"
-          style={{
-            width: "22vw",
-            top: "30%",
-            left: "86%",
-            transform: "translateX(-50%)",
-            opacity: 0.8,
-          }}
-        />
-
-        <img
-          src={stars1}
-          alt=""
-          className="absolute pointer-events-none"
-          style={{
-            width: "22vw",
-            top: "34%",
-            right: "75%",
-            opacity: 0.8,
-          }}
-        />
-
-        <img
           src={mafuyuTitle}
           alt=""
-          className="absolute pointer-events-none"
+          className={hoverTitle}
           style={{
             width: "60vw",
             top: "6%",
@@ -186,7 +188,7 @@ function Layout() {
         <img
           src={AsahinaTitle}
           alt=""
-          className="absolute pointer-events-none"
+          className={hoverTitle}
           style={{
             width: "62vw",
             top: "15%",
@@ -197,26 +199,34 @@ function Layout() {
 
         <span
           onClick={() => navigate("/cardslist")}
-          className="absolute cursor-pointer text-white hover:text-pink-300 transition-colors duration-300"
+          className="
+            absolute
+            cursor-pointer
+            text-white
+            transition-all
+            duration-500
+            hover:scale-[1.05]
+            hover:text-pink-200
+            hover:drop-shadow-[0_0_12px_rgba(255,220,255,.45)]
+          "
           style={{
             top: "32%",
             left: "50%",
             transform: "translateX(-50%)",
             fontFamily: "'Cormorant', serif",
             fontSize: "1.5rem",
-            opacity: 0.8,
             letterSpacing: "4px",
           }}
         >
           Click here
         </span>
+
         <img
           src={mafuyu2}
           alt=""
-          className="absolute pointer-events-none"
+          className={hoverImage}
           style={{
             width: "90vw",
-            height: "auto",
             bottom: "80px",
             left: "50%",
             transform: "translateX(-50%)",
@@ -224,19 +234,30 @@ function Layout() {
         />
 
         <span
-          className="absolute"
-          style={{
-            bottom: "5%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            fontFamily: "'Cormorant', serif",
-            fontSize: "15px",
-            color: "rgba(255,255,255,0.45)",
-            letterSpacing: "2px",
-          }}
-        >
-          by lavi
-        </span>
+  className="absolute"
+  style={{
+    bottom: "5%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    fontFamily: "'Cormorant', serif",
+    fontSize: "15px",
+    color: "rgba(255,255,255,0.45)",
+  }}
+>
+  by{" "}
+  <span
+    className="
+      inline-block
+      transition-all
+      duration-500
+      hover:scale-[1.06]
+      hover:text-pink-200
+      hover:drop-shadow-[0_0_10px_rgba(255,220,255,.4)]
+    "
+  >
+    lavi
+  </span>
+</span>
 
         <div className="px-4 pb-4">
           <img src={stars} alt="" className="w-full opacity-70" />
