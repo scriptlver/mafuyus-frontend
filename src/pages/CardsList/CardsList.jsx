@@ -8,17 +8,20 @@ import cardsListTitle from "../../images/CardsList/cards-list.png";
 
 const cormorant = { fontFamily: "Cormorant", fontWeight: "700" };
 
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
 function CardsList() {
   const isAdmin = localStorage.getItem("admin") === "true";
 
   const [showModal, setShowModal] = useState(false);
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [activeLetter, setActiveLetter] = useState(null);
+  const [activeType, setActiveType] = useState(null);
 
   const [editingCard, setEditingCard] = useState(null);
   const [newImage, setNewImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
-
   const [newTitle, setNewTitle] = useState("");
 
   async function loadCards() {
@@ -45,9 +48,13 @@ function CardsList() {
       .replace(/\b\w/g, (l) => l.toUpperCase());
   }
 
+  function isUpgrade(card) {
+    const name = (card.name || card.image).toLowerCase();
+    return name.includes("up");
+  }
+
   async function deleteCard(id) {
     if (!confirm("Deletar este card?")) return;
-
     try {
       await api.delete(`/cards/${id}`);
       loadCards();
@@ -58,17 +65,10 @@ function CardsList() {
 
   async function updateCard() {
     if (!editingCard) return;
-
     try {
       const formData = new FormData();
-
-      if (newImage) {
-        formData.append("image", newImage);
-      }
-
-      if (newTitle.trim()) {
-        formData.append("name", newTitle);
-      }
+      if (newImage) formData.append("image", newImage);
+      if (newTitle.trim()) formData.append("name", newTitle);
 
       await api.put(`/cards/${editingCard._id}`, formData);
 
@@ -77,7 +77,6 @@ function CardsList() {
       setPreviewImage("");
       setSelectedCard(null);
       setNewTitle("");
-
       loadCards();
     } catch (error) {
       console.error("Erro ao atualizar card:", error);
@@ -87,6 +86,22 @@ function CardsList() {
   useEffect(() => {
     loadCards();
   }, []);
+
+  const availableLetters = new Set(
+    cards.map((card) =>
+      (card.name || formatFileName(card.image))[0].toUpperCase(),
+    ),
+  );
+
+  const filteredCards = cards.filter((card) => {
+    if (activeType === "upgrade") return isUpgrade(card);
+    if (activeType === "normal") return !isUpgrade(card);
+    if (activeLetter)
+      return (card.name || formatFileName(card.image))
+        .toUpperCase()
+        .startsWith(activeLetter);
+    return true;
+  });
 
   return (
     <div
@@ -109,8 +124,67 @@ function CardsList() {
         )}
       </div>
 
+      <div className="flex items-center justify-start gap-3 mb-6 flex-wrap">
+        <span
+          className="text-white"
+          style={{ ...cormorant, fontSize: "1.2rem" }}
+        >
+          Filter by:
+        </span>
+
+        <button
+          onClick={() => {
+            setActiveLetter(null);
+            setActiveType(null);
+          }}
+          style={{
+            ...cormorant,
+            fontSize: "1.1rem",
+            color:
+              activeLetter === null && activeType === null
+                ? "white"
+                : "#9B8AB8",
+            fontWeight:
+              activeLetter === null && activeType === null ? "700" : "500",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+          }}
+        >
+          All
+        </button>
+
+        {ALPHABET.map((letter) => {
+          const available = availableLetters.has(letter);
+          if (!available) return null;
+          const isActive = activeLetter === letter;
+          return (
+            <button
+              key={letter}
+              onClick={() => {
+                setActiveType(null);
+                setActiveLetter(isActive ? null : letter);
+              }}
+              style={{
+                ...cormorant,
+                fontSize: "1rem",
+                color: isActive ? "white" : "#9B8AB8",
+                fontWeight: isActive ? "700" : "500",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              {letter}
+            </button>
+          );
+        })}
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-        {cards.map((card) => (
+        {filteredCards.map((card) => (
           <div
             key={card._id}
             className="relative group cursor-pointer"
@@ -129,7 +203,7 @@ function CardsList() {
               <div className="absolute inset-0 bg-[#3E3259]/70 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <span
                   className="text-white text-center px-3 break-all"
-                  style={{ ...cormorant, fontSize: "1rem" }}
+                  style={{ ...cormorant, fontSize: "1.1em" }}
                 >
                   {card.name || formatFileName(card.image)}
                 </span>
@@ -173,7 +247,7 @@ function CardsList() {
 
             <p
               className="text-white text-center mt-4"
-              style={{ ...cormorant, fontSize: "1.2rem" }}
+              style={{ ...cormorant, fontSize: "1rem" }}
             >
               {selectedCard.name || formatFileName(selectedCard.image)}
             </p>
@@ -216,9 +290,11 @@ function CardsList() {
             className="bg-[#3E3259] p-6 rounded-xl w-[500px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-white text-2xl mb-4" style={cormorant}>
-              Edit Card
-            </h2>
+            <img
+              src="/src/images/AddCard/edit-card.png"
+              alt="Edit Card"
+              className="mb-4 w-42"
+            />
 
             <input
               type="text"
@@ -229,7 +305,7 @@ function CardsList() {
               style={cormorant}
             />
 
-            <div className="border-2 border-dashed border-[#624F8C] rounded-xl h-64 flex items-center justify-center overflow-hidden mb-4">
+            <div className="rounded-xl h-64 flex items-center justify-center overflow-hidden mb-4">
               {previewImage && (
                 <img
                   src={previewImage}
@@ -251,7 +327,6 @@ function CardsList() {
                 onChange={(e) => {
                   const file = e.target.files[0];
                   if (!file) return;
-
                   setNewImage(file);
                   setPreviewImage(URL.createObjectURL(file));
                 }}
