@@ -24,7 +24,12 @@ function CardsList() {
   async function loadCards() {
     try {
       const response = await api.get("/cards");
-      setCards(response.data);
+      const sorted = response.data.sort((a, b) => {
+        const nameA = (a.name || formatFileName(a.image)).toLowerCase();
+        const nameB = (b.name || formatFileName(b.image)).toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+      setCards(sorted);
     } catch (error) {
       console.error("Erro ao buscar cards:", error);
     }
