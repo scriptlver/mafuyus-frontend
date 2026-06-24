@@ -96,7 +96,7 @@ function CardsList() {
         </div>
 
         {isAdmin && (
-          <div className="absolute right-80 top-1/2 -translate-y-1/2">
+          <div className="absolute right-90 top-1/2 -translate-y-1/2">
             <Button onClick={() => setShowModal(true)}>Add Card</Button>
           </div>
         )}

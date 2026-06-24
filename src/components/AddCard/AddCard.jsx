@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ImageIcon } from "lucide-react";
 import { api } from "../../services/api";
+
+const cormorant = { fontFamily: "Cormorant", fontWeight: "600" };
 
 function AddCard({ onClose, onCardAdded, card }) {
   const [title] = useState(card?.title || "");
@@ -12,17 +13,16 @@ function AddCard({ onClose, onCardAdded, card }) {
 
     if (selectedFiles.length > 0) {
       setFiles(selectedFiles);
-
       setPreviews(selectedFiles.map((file) => URL.createObjectURL(file)));
     }
   };
 
   const handleRemove = (index) => {
-    const updated = files.filter((_, i) => i !== index);
+    const updatedFiles = files.filter((_, i) => i !== index);
+    const updatedPreviews = previews.filter((_, i) => i !== index);
 
-    setFiles(updated);
-
-    setPreviews(updated.map((file) => URL.createObjectURL(file)));
+    setFiles(updatedFiles);
+    setPreviews(updatedPreviews);
   };
 
   const handleSave = async () => {
@@ -65,55 +65,56 @@ function AddCard({ onClose, onCardAdded, card }) {
         className="w-full max-w-md rounded-2xl p-6"
         style={{ backgroundColor: "#3E3259" }}
       >
-        <h2
-          className="text-white text-4xl font-semibold mb-6"
-          style={{ fontFamily: "Cormorant" }}
-        >
-          {card ? "Edit Card" : "Add Card"}
-        </h2>
+        {card ? (
+          <h2
+            className="text-white text-4xl font-semibold mb-6"
+            style={cormorant}
+          >
+            Edit Card
+          </h2>
+        ) : (
+          <img
+            src="/src/images/AddCard/add-card.png"
+            alt="Add Card"
+            className="mb-6 w-44"
+          />
+        )}
 
         <div className="mb-6">
-          <label className="block text-white font-semibold mb-2">
+          <label
+            className="block text-white mb-2"
+            style={{ ...cormorant, fontSize: "1.2rem" }}
+          >
             Images of the Cards
           </label>
 
-          <div
-            className="
-              w-full
-              rounded-2xl
-              bg-[#2E2442]
-              p-3
-              mb-4
-            "
-          >
+          <div className="w-full rounded-2xl bg-[#2E2442] p-3 mb-4">
             {files.length > 0 ? (
               <div className="flex flex-col gap-2 max-h-[220px] overflow-y-auto">
                 {files.map((file, index) => (
                   <div
                     key={index}
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      bg-[#4B3A6D]
-                      rounded-xl
-                      px-4
-                      py-3
-                    "
+                    className="flex items-center justify-between bg-[#4B3A6D] rounded-xl px-4 py-2"
                   >
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <ImageIcon size={22} className="text-[#C9B2FF]" />
+                      <img
+                        src={previews[index]}
+                        alt={file.name}
+                        className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
+                      />
 
-                      <span className="text-white truncate">{file.name}</span>
+                      <span
+                        className="text-white truncate"
+                        style={{ ...cormorant, fontSize: "1.1rem" }}
+                      >
+                        {file.name}
+                      </span>
                     </div>
 
                     <button
                       onClick={() => handleRemove(index)}
-                      className="
-                        text-red-300
-                        hover:text-red-200
-                        text-sm
-                      "
+                      className="text-red-300 hover:text-red-200 flex-shrink-0"
+                      style={{ ...cormorant, fontSize: "1.1rem" }}
                     >
                       Remove
                     </button>
@@ -122,16 +123,20 @@ function AddCard({ onClose, onCardAdded, card }) {
               </div>
             ) : (
               <div className="h-[120px] flex flex-col items-center justify-center gap-2">
-                <ImageIcon size={40} className="text-[#8B74B8]" />
-
-                <span className="text-gray-300">
+                <span
+                  className="text-gray-400"
+                  style={{ ...cormorant, fontSize: "1.1rem" }}
+                >
                   {card ? "Keep current image" : "No images selected"}
                 </span>
               </div>
             )}
           </div>
 
-          <label className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white font-semibold text-center block">
+          <label
+            className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block"
+            style={{ ...cormorant, fontSize: "1.2rem" }}
+          >
             Choose images
             <input
               type="file"
@@ -143,7 +148,10 @@ function AddCard({ onClose, onCardAdded, card }) {
           </label>
 
           {files.length > 0 && (
-            <p className="text-gray-300 text-sm mt-2">
+            <p
+              className="text-gray-300 mt-2"
+              style={{ ...cormorant, fontSize: "1rem" }}
+            >
               {files.length} image
               {files.length > 1 ? "s" : ""} selected
             </p>
@@ -154,6 +162,7 @@ function AddCard({ onClose, onCardAdded, card }) {
           <button
             onClick={onClose}
             className="px-4 py-2 rounded-xl bg-gray-500 text-white"
+            style={{ ...cormorant, fontSize: "1.2rem" }}
           >
             Cancel
           </button>
@@ -161,6 +170,7 @@ function AddCard({ onClose, onCardAdded, card }) {
           <button
             onClick={handleSave}
             className="px-4 py-2 rounded-xl bg-[#624F8C] text-white"
+            style={{ ...cormorant, fontSize: "1.2rem" }}
           >
             {card ? "Update" : "Save"}
           </button>
