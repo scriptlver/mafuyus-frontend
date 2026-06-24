@@ -76,14 +76,14 @@ function AddCard({ onClose, onCardAdded, card }) {
           <img
             src="/src/images/AddCard/add-card.png"
             alt="Add Card"
-            className="mb-6 w-44"
+            className="mb-6 w-42"
           />
         )}
 
         <div className="mb-6">
           <label
             className="block text-white mb-2"
-            style={{ ...cormorant, fontSize: "1.2rem" }}
+            style={{ ...cormorant, fontSize: "1.1rem" }}
           >
             Images of the Cards
           </label>
@@ -105,7 +105,7 @@ function AddCard({ onClose, onCardAdded, card }) {
 
                       <span
                         className="text-white truncate"
-                        style={{ ...cormorant, fontSize: "1.1rem" }}
+                        style={{ ...cormorant, fontSize: "1rem" }}
                       >
                         {file.name}
                       </span>
@@ -114,7 +114,7 @@ function AddCard({ onClose, onCardAdded, card }) {
                     <button
                       onClick={() => handleRemove(index)}
                       className="text-red-300 hover:text-red-200 flex-shrink-0"
-                      style={{ ...cormorant, fontSize: "1.1rem" }}
+                      style={{ ...cormorant, fontSize: "1rem" }}
                     >
                       Remove
                     </button>
@@ -125,7 +125,7 @@ function AddCard({ onClose, onCardAdded, card }) {
               <div className="h-[120px] flex flex-col items-center justify-center gap-2">
                 <span
                   className="text-gray-400"
-                  style={{ ...cormorant, fontSize: "1.1rem" }}
+                  style={{ ...cormorant, fontSize: "1rem" }}
                 >
                   {card ? "Keep current image" : "No images selected"}
                 </span>
@@ -134,8 +134,8 @@ function AddCard({ onClose, onCardAdded, card }) {
           </div>
 
           <label
-            className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block"
-            style={{ ...cormorant, fontSize: "1.2rem" }}
+            className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block hover:bg-[#725EA1]"
+            style={{ ...cormorant, fontSize: "1.1rem" }}
           >
             Choose images
             <input
@@ -150,7 +150,7 @@ function AddCard({ onClose, onCardAdded, card }) {
           {files.length > 0 && (
             <p
               className="text-gray-300 mt-2"
-              style={{ ...cormorant, fontSize: "1rem" }}
+              style={{ ...cormorant, fontSize: "0.9rem" }}
             >
               {files.length} image
               {files.length > 1 ? "s" : ""} selected
@@ -161,16 +161,16 @@ function AddCard({ onClose, onCardAdded, card }) {
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-gray-500 text-white"
-            style={{ ...cormorant, fontSize: "1.2rem" }}
+            className="px-4 py-2 rounded-xl bg-gray-500 text-white hover:bg-[#8c8c8c]"
+            style={{ ...cormorant, fontSize: "1.1rem" }}
           >
             Cancel
           </button>
 
           <button
             onClick={handleSave}
-            className="px-4 py-2 rounded-xl bg-[#624F8C] text-white"
-            style={{ ...cormorant, fontSize: "1.2rem" }}
+            className="px-4 py-2 rounded-xl bg-[#624F8C] text-white hover:bg-[#725EA1]"
+            style={{ ...cormorant, fontSize: "1.1rem" }}
           >
             {card ? "Update" : "Save"}
           </button>

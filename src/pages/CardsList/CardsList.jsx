@@ -6,6 +6,8 @@ import { api } from "../../services/api";
 
 import cardsListTitle from "../../images/CardsList/cards-list.png";
 
+const cormorant = { fontFamily: "Cormorant", fontWeight: "700" };
+
 function CardsList() {
   const isAdmin = localStorage.getItem("admin") === "true";
 
@@ -120,7 +122,10 @@ function CardsList() {
               />
 
               <div className="absolute inset-0 bg-[#3E3259]/70 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                <span className="text-white text-sm text-center px-3 break-all">
+                <span
+                  className="text-white text-center px-3 break-all"
+                  style={{ ...cormorant, fontSize: "1rem" }}
+                >
                   {card.name || formatFileName(card.image)}
                 </span>
               </div>
@@ -132,7 +137,8 @@ function CardsList() {
                   e.stopPropagation();
                   deleteCard(card._id);
                 }}
-                className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-2 right-2 bg-red-700 text-white text-xs px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                style={cormorant}
               >
                 Delete
               </button>
@@ -160,30 +166,33 @@ function CardsList() {
               className="w-full max-h-[70vh] object-contain rounded"
             />
 
-            <p className="text-white text-center mt-4 text-lg">
+            <p
+              className="text-white text-center mt-4"
+              style={{ ...cormorant, fontSize: "1.2rem" }}
+            >
               {selectedCard.name || formatFileName(selectedCard.image)}
             </p>
 
             <div className="flex gap-2 mt-4">
               {isAdmin && (
-                <>
-                  <button
-                    className="flex-1 bg-[#624F8C] text-white py-2 rounded"
-                    onClick={() => {
-                      setEditingCard(selectedCard);
-                      setPreviewImage(
-                        `http://localhost:3000/uploads/${selectedCard.image}`,
-                      );
-                      setNewTitle(selectedCard.name || "");
-                    }}
-                  >
-                    Edit
-                  </button>
-                </>
+                <button
+                  className="flex-1 bg-[#624F8C] text-white py-2 rounded"
+                  style={cormorant}
+                  onClick={() => {
+                    setEditingCard(selectedCard);
+                    setPreviewImage(
+                      `http://localhost:3000/uploads/${selectedCard.image}`,
+                    );
+                    setNewTitle(selectedCard.name || "");
+                  }}
+                >
+                  Edit
+                </button>
               )}
 
               <button
                 className="flex-1 bg-red-500 text-white py-2 rounded"
+                style={cormorant}
                 onClick={() => setSelectedCard(null)}
               >
                 Close
@@ -202,7 +211,9 @@ function CardsList() {
             className="bg-[#3E3259] p-6 rounded-xl w-[500px]"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-white text-2xl mb-4">Edit Card</h2>
+            <h2 className="text-white text-2xl mb-4" style={cormorant}>
+              Edit Card
+            </h2>
 
             <input
               type="text"
@@ -210,6 +221,7 @@ function CardsList() {
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Edit title of the card"
               className="w-full mb-4 px-3 py-2 rounded bg-[#2E2442] text-white outline-none"
+              style={cormorant}
             />
 
             <div className="border-2 border-dashed border-[#624F8C] rounded-xl h-64 flex items-center justify-center overflow-hidden mb-4">
@@ -222,7 +234,10 @@ function CardsList() {
               )}
             </div>
 
-            <label className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white font-semibold text-center block">
+            <label
+              className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block"
+              style={cormorant}
+            >
               Choose image
               <input
                 type="file"
@@ -241,6 +256,7 @@ function CardsList() {
             <div className="flex gap-2 mt-6">
               <button
                 className="flex-1 bg-green-600 text-white py-2 rounded"
+                style={cormorant}
                 onClick={updateCard}
               >
                 Save
@@ -248,6 +264,7 @@ function CardsList() {
 
               <button
                 className="flex-1 bg-red-500 text-white py-2 rounded"
+                style={cormorant}
                 onClick={() => {
                   setEditingCard(null);
                   setNewImage(null);
