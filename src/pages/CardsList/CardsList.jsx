@@ -256,9 +256,9 @@ function CardsList() {
                     setPreviewImage(
                       `http://localhost:3000/uploads/${card.image}`,
                     );
-                    setNewTitle(card.name || "");
+                    setNewTitle(card.name || formatFileName(card.image));
                   }}
-                  className="bg-[#624F8C] text-white text-xs px-3 py-1 rounded w-16 text-center"
+                  className="bg-[#624F8C] text-white text-xs px-2 py-1 rounded w-10 text-center"
                   style={cormorant}
                 >
                   Edit
@@ -269,7 +269,7 @@ function CardsList() {
                     e.stopPropagation();
                     deleteCard(card._id);
                   }}
-                  className="bg-red-700 text-white text-xs px-3 py-1 rounded w-16 text-center"
+                  className="bg-red-700 text-white text-xs px-2 py-1 rounded w-12 text-center"
                   style={cormorant}
                 >
                   Delete
@@ -306,7 +306,7 @@ function CardsList() {
                   e.stopPropagation();
                   goToPrevCard();
                 }}
-                className="absolute left-2 z-10 text-white text-3xl px-2 py-1 bg-black/40 rounded-full hover:bg-black/70 hover:text-[#9B8AB8] transition"
+                className="absolute left-2 z-10 text-white text-3xl px-2 py-1 rounded-full hover:text-[#9B8AB8] transition"
                 style={cormorant}
               >
                 &#8249;
@@ -323,7 +323,7 @@ function CardsList() {
                   e.stopPropagation();
                   goToNextCard();
                 }}
-                className="absolute right-2 z-10 text-white text-3xl px-2 py-1 bg-black/40 rounded-full hover:bg-black/70 hover:text-[#9B8AB8] transition"
+                className="absolute right-2 z-10 text-white text-3xl px-2 py-1 rounded-full hover:text-[#9B8AB8] transition"
                 style={cormorant}
               >
                 &#8250;
