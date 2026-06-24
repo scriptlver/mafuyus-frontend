@@ -155,8 +155,13 @@ function CardsList() {
         </div>
 
         {isAdmin && (
-          <div className="absolute right-90 top-1/2 -translate-y-1/2">
-            <Button onClick={() => setShowModal(true)}>Add Card</Button>
+          <div className="flex justify-center mt-2">
+            <Button
+              onClick={() => setShowModal(true)}
+              className="w-full max-w-xs"
+            >
+              Add Card
+            </Button>
           </div>
         )}
       </div>
@@ -443,9 +448,9 @@ function CardsList() {
               />
             </label>
 
-            <div className="flex gap-2 mt-6">
+            <div className="flex gap-2 mt-6 justify-end">
               <button
-                className="flex-1 bg-green-600 text-white py-2 rounded"
+                className="px-4 py-2 rounded-xl bg-green-700 text-white hover:bg-[#8c8c8c]"
                 style={cormorant}
                 onClick={updateCard}
               >
@@ -453,7 +458,7 @@ function CardsList() {
               </button>
 
               <button
-                className="flex-1 bg-red-500 text-white py-2 rounded"
+                className="px-4 py-2 rounded-xl bg-red-700 text-white hover:bg-[#8c8c8c]"
                 style={cormorant}
                 onClick={() => {
                   setEditingCard(null);
