@@ -103,6 +103,43 @@ function CardsList() {
     return true;
   });
 
+  function goToPrevCard() {
+    const currentIndex = filteredCards.findIndex(
+      (card) => card._id === selectedCard._id,
+    );
+    if (currentIndex === -1) return;
+    const prevIndex =
+      (currentIndex - 1 + filteredCards.length) % filteredCards.length;
+    setSelectedCard(filteredCards[prevIndex]);
+    document
+      .getElementById("thumbnail-strip")
+      ?.scrollBy({ left: -150, behavior: "smooth" });
+  }
+
+  function goToNextCard() {
+    const currentIndex = filteredCards.findIndex(
+      (card) => card._id === selectedCard._id,
+    );
+    if (currentIndex === -1) return;
+    const nextIndex = (currentIndex + 1) % filteredCards.length;
+    setSelectedCard(filteredCards[nextIndex]);
+    document
+      .getElementById("thumbnail-strip")
+      ?.scrollBy({ left: 150, behavior: "smooth" });
+  }
+
+  useEffect(() => {
+    if (!selectedCard) return;
+
+    function handleKeyDown(e) {
+      if (e.key === "ArrowLeft") goToPrevCard();
+      if (e.key === "ArrowRight") goToNextCard();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedCard, filteredCards]);
+
   return (
     <div
       className="w-full min-h-screen px-12 py-6"
@@ -211,16 +248,33 @@ function CardsList() {
             </div>
 
             {isAdmin && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteCard(card._id);
-                }}
-                className="absolute top-2 right-2 bg-red-700 text-white text-xs px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                style={cormorant}
-              >
-                Delete
-              </button>
+              <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEditingCard(card);
+                    setPreviewImage(
+                      `http://localhost:3000/uploads/${card.image}`,
+                    );
+                    setNewTitle(card.name || "");
+                  }}
+                  className="bg-[#624F8C] text-white text-xs px-3 py-1 rounded w-16 text-center"
+                  style={cormorant}
+                >
+                  Edit
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteCard(card._id);
+                  }}
+                  className="bg-red-700 text-white text-xs px-3 py-1 rounded w-16 text-center"
+                  style={cormorant}
+                >
+                  Delete
+                </button>
+              </div>
             )}
           </div>
         ))}
@@ -236,45 +290,101 @@ function CardsList() {
           onClick={() => setSelectedCard(null)}
         >
           <div
-            className="bg-[#3E3259] p-4 rounded-lg max-w-3xl w-full"
+            className="bg-[#3E3259] p-5 rounded-lg max-w-3xl w-full relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              src={`http://localhost:3000/uploads/${selectedCard.image}`}
-              alt={selectedCard.name}
-              className="w-full max-h-[70vh] object-contain rounded"
-            />
+            <button
+              onClick={() => setSelectedCard(null)}
+              className="absolute top-4 right-5 text-white text-lg hover:text-[#9B8AB8] leading-none"
+            >
+              &#10005;
+            </button>
+
+            <div className="relative flex items-center justify-center">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToPrevCard();
+                }}
+                className="absolute left-2 z-10 text-white text-3xl px-2 py-1 bg-black/40 rounded-full hover:bg-black/70 hover:text-[#9B8AB8] transition"
+                style={cormorant}
+              >
+                &#8249;
+              </button>
+
+              <img
+                src={`http://localhost:3000/uploads/${selectedCard.image}`}
+                alt={selectedCard.name}
+                className="w-full max-h-[60vh] object-contain rounded"
+              />
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToNextCard();
+                }}
+                className="absolute right-2 z-10 text-white text-3xl px-2 py-1 bg-black/40 rounded-full hover:bg-black/70 hover:text-[#9B8AB8] transition"
+                style={cormorant}
+              >
+                &#8250;
+              </button>
+            </div>
 
             <p
-              className="text-white text-center mt-4"
-              style={{ ...cormorant, fontSize: "1.7rem" }}
+              className="text-white text-center mt-3"
+              style={{ ...cormorant, fontSize: "1.6rem" }}
             >
               {selectedCard.name || formatFileName(selectedCard.image)}
             </p>
 
-            <div className="flex justify-center gap-2 mt-4">
-              {isAdmin && (
-                <button
-                  className="px-4 py-2 rounded-xl bg-[#624F8C] text-white hover:bg-[#725EA1]"
-                  style={cormorant}
-                  onClick={() => {
-                    setEditingCard(selectedCard);
-                    setPreviewImage(
-                      `http://localhost:3000/uploads/${selectedCard.image}`,
-                    );
-                    setNewTitle(selectedCard.name || "");
-                  }}
-                >
-                  Edit
-                </button>
-              )}
+            <div className="flex items-center gap-2 mt-3">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  document
+                    .getElementById("thumbnail-strip")
+                    ?.scrollBy({ left: -150, behavior: "smooth" });
+                }}
+                className="text-white text-2xl px-1 hover:text-[#9B8AB8]"
+                style={cormorant}
+              >
+                &#8249;
+              </button>
+
+              <div
+                id="thumbnail-strip"
+                className="flex gap-2 overflow-x-auto flex-1 scroll-smooth"
+                style={{ scrollbarWidth: "none" }}
+              >
+                {filteredCards.map((card) => (
+                  <img
+                    key={card._id}
+                    src={`http://localhost:3000/uploads/${card.image}`}
+                    alt={formatFileName(card.image)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedCard(card);
+                    }}
+                    className={`h-14 w-24 object-cover rounded cursor-pointer flex-shrink-0 transition ${
+                      selectedCard._id === card._id
+                        ? "ring-2 ring-white"
+                        : "opacity-70 hover:opacity-100"
+                    }`}
+                  />
+                ))}
+              </div>
 
               <button
-                className="px-4 py-2 rounded-xl bg-gray-500 text-white hover:bg-[#8c8c8c]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  document
+                    .getElementById("thumbnail-strip")
+                    ?.scrollBy({ left: 150, behavior: "smooth" });
+                }}
+                className="text-white text-2xl px-1 hover:text-[#9B8AB8]"
                 style={cormorant}
-                onClick={() => setSelectedCard(null)}
               >
-                Close
+                &#8250;
               </button>
             </div>
           </div>
