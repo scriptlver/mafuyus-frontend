@@ -247,15 +247,15 @@ function CardsList() {
 
             <p
               className="text-white text-center mt-4"
-              style={{ ...cormorant, fontSize: "1rem" }}
+              style={{ ...cormorant, fontSize: "1.7rem" }}
             >
               {selectedCard.name || formatFileName(selectedCard.image)}
             </p>
 
-            <div className="flex gap-2 mt-4">
+            <div className="flex justify-center gap-2 mt-4">
               {isAdmin && (
                 <button
-                  className="flex-1 bg-[#624F8C] text-white py-2 rounded"
+                  className="px-4 py-2 rounded-xl bg-[#624F8C] text-white hover:bg-[#725EA1]"
                   style={cormorant}
                   onClick={() => {
                     setEditingCard(selectedCard);
@@ -270,7 +270,7 @@ function CardsList() {
               )}
 
               <button
-                className="flex-1 bg-red-500 text-white py-2 rounded"
+                className="px-4 py-2 rounded-xl bg-gray-500 text-white hover:bg-[#8c8c8c]"
                 style={cormorant}
                 onClick={() => setSelectedCard(null)}
               >
