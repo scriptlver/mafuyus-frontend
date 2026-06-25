@@ -155,13 +155,8 @@ function CardsList() {
         </div>
 
         {isAdmin && (
-          <div className="flex justify-center mt-2">
-            <Button
-              onClick={() => setShowModal(true)}
-              className="w-full max-w-xs"
-            >
-              Add Card
-            </Button>
+          <div className="absolute right-90 top-1/2 -translate-y-1/2">
+            <Button onClick={() => setShowModal(true)}>Add Card</Button>
           </div>
         )}
       </div>
