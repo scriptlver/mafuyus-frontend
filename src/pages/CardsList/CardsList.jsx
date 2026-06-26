@@ -155,8 +155,19 @@ function CardsList() {
         </div>
 
         {isAdmin && (
-          <div className="absolute right-90 top-1/2 -translate-y-1/2">
+          <div className="absolute right-90 top-1/2 -translate-y-1/2 hidden sm:block">
             <Button onClick={() => setShowModal(true)}>Add Card</Button>
+          </div>
+        )}
+
+        {isAdmin && (
+          <div className="flex justify-center mt-6 sm:hidden">
+            <Button
+              onClick={() => setShowModal(true)}
+              className="text-xl px-20 py-2"
+            >
+              Add Card
+            </Button>
           </div>
         )}
       </div>
@@ -290,23 +301,23 @@ function CardsList() {
           onClick={() => setSelectedCard(null)}
         >
           <div
-            className="bg-[#3E3259] p-5 rounded-lg max-w-3xl w-full relative"
+            className="bg-[#3E3259] p-3 sm:p-5 rounded-lg max-w-3xl w-[90%] sm:w-full relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setSelectedCard(null)}
-              className="absolute top-4 right-5 text-white text-lg hover:text-[#9B8AB8] leading-none"
+              className="absolute top-3 right-4 text-white text-lg hover:text-[#9B8AB8] leading-none"
             >
               &#10005;
             </button>
 
-            <div className="relative flex items-center justify-center">
+            <div className="flex items-center justify-center gap-2">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   goToPrevCard();
                 }}
-                className="absolute left-2 z-10 text-white text-3xl px-2 py-1 rounded-full hover:text-[#9B8AB8] transition"
+                className="text-white text-3xl px-2 py-1 rounded-full hover:text-[#9B8AB8] transition flex-shrink-0"
                 style={cormorant}
               >
                 &#8249;
@@ -315,7 +326,7 @@ function CardsList() {
               <img
                 src={`http://localhost:3000/uploads/${selectedCard.image}`}
                 alt={selectedCard.name}
-                className="w-full max-h-[60vh] object-contain rounded"
+                className="flex-1 max-h-[35vh] sm:max-h-[60vh] object-contain rounded"
               />
 
               <button
@@ -323,7 +334,7 @@ function CardsList() {
                   e.stopPropagation();
                   goToNextCard();
                 }}
-                className="absolute right-2 z-10 text-white text-3xl px-2 py-1 rounded-full hover:text-[#9B8AB8] transition"
+                className="text-white text-3xl px-2 py-1 rounded-full hover:text-[#9B8AB8] transition flex-shrink-0"
                 style={cormorant}
               >
                 &#8250;
@@ -331,13 +342,13 @@ function CardsList() {
             </div>
 
             <p
-              className="text-white text-center mt-3"
-              style={{ ...cormorant, fontSize: "1.6rem" }}
+              className="text-white text-center mt-2"
+              style={{ ...cormorant, fontSize: "1.2rem" }}
             >
               {selectedCard.name || formatFileName(selectedCard.image)}
             </p>
 
-            <div className="flex items-center gap-2 mt-3">
+            <div className="flex items-center gap-2 mt-2">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -345,7 +356,7 @@ function CardsList() {
                     .getElementById("thumbnail-strip")
                     ?.scrollBy({ left: -150, behavior: "smooth" });
                 }}
-                className="text-white text-2xl px-1 hover:text-[#9B8AB8]"
+                className="text-white text-3xl px-1 hover:text-[#9B8AB8] flex-shrink-0"
                 style={cormorant}
               >
                 &#8249;
@@ -365,7 +376,7 @@ function CardsList() {
                       e.stopPropagation();
                       setSelectedCard(card);
                     }}
-                    className={`h-14 w-24 object-cover rounded cursor-pointer flex-shrink-0 transition ${
+                    className={`h-10 w-16 sm:h-14 sm:w-24 object-cover rounded cursor-pointer flex-shrink-0 transition ${
                       selectedCard._id === card._id
                         ? "ring-2 ring-white"
                         : "opacity-70 hover:opacity-100"
@@ -381,7 +392,7 @@ function CardsList() {
                     .getElementById("thumbnail-strip")
                     ?.scrollBy({ left: 150, behavior: "smooth" });
                 }}
-                className="text-white text-2xl px-1 hover:text-[#9B8AB8]"
+                className="text-white text-3xl px-1 hover:text-[#9B8AB8] flex-shrink-0"
                 style={cormorant}
               >
                 &#8250;

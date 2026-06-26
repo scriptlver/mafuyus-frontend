@@ -1,16 +1,17 @@
-function Button({ children, onClick }) {
+function Button({ children, onClick, className = "", style = {} }) {
   return (
     <button
       onClick={onClick}
-      style={{ fontFamily: "Cormorant", fontWeight: "800" }}
-      className="
+      style={{ fontFamily: "Cormorant", fontWeight: "800", ...style }}
+      className={`
         px-4 py-2
         bg-[#624F8C]
         text-white
         rounded-lg
         hover:bg-[#725EA1]
         transition
-      "
+        ${className}
+      `}
     >
       {children}
     </button>
