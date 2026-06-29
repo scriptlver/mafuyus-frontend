@@ -62,7 +62,7 @@ function AddCard({ onClose, onCardAdded, card }) {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div
-        className="w-full max-w-md rounded-2xl p-6"
+        className="w-full max-w-xs sm:max-w-md mx-4 rounded-2xl p-4 sm:p-6"
         style={{ backgroundColor: "#3E3259" }}
       >
         {card ? (

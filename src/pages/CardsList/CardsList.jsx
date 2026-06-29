@@ -408,7 +408,7 @@ function CardsList() {
           onClick={() => setEditingCard(null)}
         >
           <div
-            className="bg-[#3E3259] p-4 sm:p-6 rounded-xl w-[90%] sm:w-[500px] max-w-[500px] max-h-[85vh] overflow-y-auto"
+            className="bg-[#3E3259] p-6 rounded-xl w-[500px]"
             onClick={(e) => e.stopPropagation()}
           >
             <img
@@ -426,7 +426,7 @@ function CardsList() {
               style={cormorant}
             />
 
-            <div className="rounded-xl h-40 sm:h-64 flex items-center justify-center overflow-hidden mb-4">
+            <div className="rounded-xl h-64 flex items-center justify-center overflow-hidden mb-4">
               {previewImage && (
                 <img
                   src={previewImage}
