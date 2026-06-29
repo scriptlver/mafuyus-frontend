@@ -142,154 +142,160 @@ function CardsList() {
 
   return (
     <div
-      className="w-full min-h-screen px-12 py-6"
+      className="w-full min-h-screen px-12 py-6 flex flex-col"
       style={{ backgroundColor: "#3E3259" }}
     >
-      <div className="relative mb-8">
-        <div className="flex justify-center">
-          <img
-            src={cardsListTitle}
-            alt="Cards List"
-            className="h-18 object-contain"
-          />
+      <div className="flex-1">
+        <div className="relative mb-8">
+          <div className="flex justify-center">
+            <img
+              src={cardsListTitle}
+              alt="Cards List"
+              className="h-18 object-contain"
+            />
+          </div>
+
+          {isAdmin && (
+            <div className="absolute right-90 top-1/2 -translate-y-1/2 hidden sm:block">
+              <Button onClick={() => setShowModal(true)}>Add Card</Button>
+            </div>
+          )}
+
+          {isAdmin && (
+            <div className="flex justify-center mt-6 sm:hidden">
+              <Button
+                onClick={() => setShowModal(true)}
+                className="text-xl px-20 py-2"
+              >
+                Add Card
+              </Button>
+            </div>
+          )}
         </div>
 
-        {isAdmin && (
-          <div className="absolute right-90 top-1/2 -translate-y-1/2 hidden sm:block">
-            <Button onClick={() => setShowModal(true)}>Add Card</Button>
-          </div>
-        )}
-
-        {isAdmin && (
-          <div className="flex justify-center mt-6 sm:hidden">
-            <Button
-              onClick={() => setShowModal(true)}
-              className="text-xl px-20 py-2"
-            >
-              Add Card
-            </Button>
-          </div>
-        )}
-      </div>
-
-      <div className="flex items-center justify-start gap-3 mb-6 flex-wrap">
-        <span
-          className="text-white"
-          style={{ ...cormorant, fontSize: "1.2rem" }}
-        >
-          Filter by:
-        </span>
-
-        <button
-          onClick={() => {
-            setActiveLetter(null);
-            setActiveType(null);
-          }}
-          style={{
-            ...cormorant,
-            fontSize: "1.1rem",
-            color:
-              activeLetter === null && activeType === null
-                ? "white"
-                : "#9B8AB8",
-            fontWeight:
-              activeLetter === null && activeType === null ? "700" : "500",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 0,
-          }}
-        >
-          All
-        </button>
-
-        {ALPHABET.map((letter) => {
-          const available = availableLetters.has(letter);
-          if (!available) return null;
-          const isActive = activeLetter === letter;
-          return (
-            <button
-              key={letter}
-              onClick={() => {
-                setActiveType(null);
-                setActiveLetter(isActive ? null : letter);
-              }}
-              style={{
-                ...cormorant,
-                fontSize: "1rem",
-                color: isActive ? "white" : "#9B8AB8",
-                fontWeight: isActive ? "700" : "500",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-              }}
-            >
-              {letter}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-        {filteredCards.map((card) => (
-          <div
-            key={card._id}
-            className="relative group cursor-pointer"
-            onClick={() => setSelectedCard(card)}
+        <div className="flex items-center justify-start gap-3 mb-6 flex-wrap">
+          <span
+            className="text-white"
+            style={{ ...cormorant, fontSize: "1.2rem" }}
           >
+            Filter by:
+          </span>
+
+          <button
+            onClick={() => {
+              setActiveLetter(null);
+              setActiveType(null);
+            }}
+            style={{
+              ...cormorant,
+              fontSize: "1.1rem",
+              color:
+                activeLetter === null && activeType === null
+                  ? "white"
+                  : "#9B8AB8",
+              fontWeight:
+                activeLetter === null && activeType === null ? "700" : "500",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            All
+          </button>
+
+          {ALPHABET.map((letter) => {
+            const available = availableLetters.has(letter);
+            if (!available) return null;
+            const isActive = activeLetter === letter;
+            return (
+              <button
+                key={letter}
+                onClick={() => {
+                  setActiveType(null);
+                  setActiveLetter(isActive ? null : letter);
+                }}
+                style={{
+                  ...cormorant,
+                  fontSize: "1rem",
+                  color: isActive ? "white" : "#9B8AB8",
+                  fontWeight: isActive ? "700" : "500",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                {letter}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+          {filteredCards.map((card) => (
             <div
-              className="overflow-hidden rounded-lg relative"
-              style={{ aspectRatio: "1000 / 571" }}
+              key={card._id}
+              className="relative group cursor-pointer"
+              onClick={() => setSelectedCard(card)}
             >
-              <img
-                src={`http://localhost:3000/uploads/${card.image}`}
-                alt={formatFileName(card.image)}
-                className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
-              />
+              <div
+                className="overflow-hidden rounded-lg relative"
+                style={{ aspectRatio: "1000 / 571" }}
+              >
+                <img
+                  src={`http://localhost:3000/uploads/${card.image}`}
+                  alt={formatFileName(card.image)}
+                  className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
+                />
 
-              <div className="absolute inset-0 bg-[#3E3259]/70 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-                <span
-                  className="text-white text-center px-3 break-all"
-                  style={{ ...cormorant, fontSize: "1.1em" }}
-                >
-                  {card.name || formatFileName(card.image)}
-                </span>
+                <div className="absolute inset-0 bg-[#3E3259]/70 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                  <span
+                    className="text-white text-center px-3 break-all"
+                    style={{ ...cormorant, fontSize: "1.1em" }}
+                  >
+                    {card.name || formatFileName(card.image)}
+                  </span>
+                </div>
               </div>
+
+              {isAdmin && (
+                <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEditingCard(card);
+                      setPreviewImage(
+                        `http://localhost:3000/uploads/${card.image}`,
+                      );
+                      setNewTitle(card.name || formatFileName(card.image));
+                    }}
+                    className="bg-[#624F8C] text-white text-xs px-2 py-1 rounded w-10 text-center hover:bg-[#3d2f5e] transition-colors duration-200"
+                    style={cormorant}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteCard(card._id);
+                    }}
+                    className="bg-red-600 text-white text-xs px-2 py-1 rounded w-12 text-center hover:bg-red-800 transition-colors duration-200"
+                    style={cormorant}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
-
-            {isAdmin && (
-              <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEditingCard(card);
-                    setPreviewImage(
-                      `http://localhost:3000/uploads/${card.image}`,
-                    );
-                    setNewTitle(card.name || formatFileName(card.image));
-                  }}
-                  className="bg-[#624F8C] text-white text-xs px-2 py-1 rounded w-10 text-center hover:bg-[#3d2f5e] transition-colors duration-200"
-                  style={cormorant}
-                >
-                  Edit
-                </button>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteCard(card._id);
-                  }}
-                  className="bg-red-600 text-white text-xs px-2 py-1 rounded w-12 text-center hover:bg-red-800 transition-colors duration-200"
-                  style={cormorant}
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+
+      <footer className="mt-10 pb-4 text-center" style={{ ...cormorant, fontSize: "1.09rem", color: "#9B8AB8" }}>
+        by scriptlver
+      </footer>
 
       {showModal && (
         <AddCard onClose={() => setShowModal(false)} onCardAdded={loadCards} />
