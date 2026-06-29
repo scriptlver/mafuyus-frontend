@@ -269,7 +269,7 @@ function CardsList() {
                     );
                     setNewTitle(card.name || formatFileName(card.image));
                   }}
-                  className="bg-[#624F8C] text-white text-xs px-2 py-1 rounded w-10 text-center"
+                  className="bg-[#624F8C] text-white text-xs px-2 py-1 rounded w-10 text-center hover:bg-[#3d2f5e] transition-colors duration-200"
                   style={cormorant}
                 >
                   Edit
@@ -280,7 +280,7 @@ function CardsList() {
                     e.stopPropagation();
                     deleteCard(card._id);
                   }}
-                  className="bg-red-700 text-white text-xs px-2 py-1 rounded w-12 text-center"
+                  className="bg-red-600 text-white text-xs px-2 py-1 rounded w-12 text-center hover:bg-red-800 transition-colors duration-200"
                   style={cormorant}
                 >
                   Delete
@@ -437,7 +437,7 @@ function CardsList() {
             </div>
 
             <label
-              className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block"
+              className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block hover:bg-[#4e3d70] transition-colors duration-200"
               style={cormorant}
             >
               Choose image
@@ -456,7 +456,7 @@ function CardsList() {
 
             <div className="flex gap-2 mt-6 justify-end">
               <button
-                className="px-4 py-2 rounded-xl bg-green-700 text-white hover:bg-[#8c8c8c]"
+                className="px-4 py-2 rounded-xl bg-green-600 text-white hover:bg-green-700 transition-colors duration-200"
                 style={cormorant}
                 onClick={updateCard}
               >
@@ -464,7 +464,7 @@ function CardsList() {
               </button>
 
               <button
-                className="px-4 py-2 rounded-xl bg-red-700 text-white hover:bg-[#8c8c8c]"
+                className="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors duration-200"
                 style={cormorant}
                 onClick={() => {
                   setEditingCard(null);

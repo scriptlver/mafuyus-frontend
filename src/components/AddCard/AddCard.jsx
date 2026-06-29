@@ -113,7 +113,7 @@ function AddCard({ onClose, onCardAdded, card }) {
 
                     <button
                       onClick={() => handleRemove(index)}
-                      className="text-red-300 hover:text-red-200 flex-shrink-0"
+                      className="text-red-300 hover:text-red-500 transition-colors duration-200 flex-shrink-0"
                       style={{ ...cormorant, fontSize: "1rem" }}
                     >
                       Remove
@@ -134,7 +134,7 @@ function AddCard({ onClose, onCardAdded, card }) {
           </div>
 
           <label
-            className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block hover:bg-[#725EA1]"
+            className="w-full cursor-pointer px-4 py-3 rounded-xl bg-[#624F8C] text-white text-center block hover:bg-[#3d2f5e] transition-colors duration-200"
             style={{ ...cormorant, fontSize: "1.1rem" }}
           >
             Choose images
@@ -161,7 +161,7 @@ function AddCard({ onClose, onCardAdded, card }) {
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-gray-500 text-white hover:bg-[#8c8c8c]"
+            className="px-4 py-2 rounded-xl bg-gray-500 text-white hover:bg-gray-700 transition-colors duration-200"
             style={{ ...cormorant, fontSize: "1.1rem" }}
           >
             Cancel
@@ -169,7 +169,7 @@ function AddCard({ onClose, onCardAdded, card }) {
 
           <button
             onClick={handleSave}
-            className="px-4 py-2 rounded-xl bg-[#624F8C] text-white hover:bg-[#725EA1]"
+            className="px-4 py-2 rounded-xl bg-[#624F8C] text-white hover:bg-[#3d2f5e] transition-colors duration-200"
             style={{ ...cormorant, fontSize: "1.1rem" }}
           >
             {card ? "Update" : "Save"}
