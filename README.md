@@ -1,4 +1,4 @@
-# 💜🔮 mafuyus frontend 🔮
+# 💜🔮 mafuyu's frontend 🔮
 frontend developed for the mafuyu cards project, a site dedicated to mafuyu asahina from project sekai. this interface manages the user experience and data consumption using a modern and responsive architecture. 💜
 
 ---
@@ -7,7 +7,7 @@ frontend developed for the mafuyu cards project, a site dedicated to mafuyu asah
 here are some records of the interface:
 
 <div align="center">
-  <img src="/assets/images/screenshots/mobile.png" width="700px" alt="mafuyus frontend preview">
+  <img src="src/images/Preview/preview.png" width="700px" alt="mafuyus frontend preview">
 </div>
 
 ---
