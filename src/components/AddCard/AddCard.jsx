@@ -3,10 +3,64 @@ import { api } from "../../services/api";
 
 const cormorant = { fontFamily: "Cormorant", fontWeight: "600" };
 
+function Toast({ type, message, onClose }) {
+  const isSuccess = type === "success";
+
+  return (
+    <div className="fixed top-6 right-6 z-[100] w-[320px] bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="flex items-center gap-3 px-4 py-3">
+        <div
+          className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-white text-sm ${
+            isSuccess ? "bg-green-500" : "bg-red-500"
+          }`}
+        >
+          {isSuccess ? "✓" : "!"}
+        </div>
+
+        <span
+          className="text-gray-800 flex-1"
+          style={{ ...cormorant, fontSize: "1.05rem" }}
+        >
+          {message}
+        </span>
+
+        <button
+          onClick={onClose}
+          className="text-gray-400 hover:text-gray-600 text-lg leading-none flex-shrink-0"
+        >
+          &#10005;
+        </button>
+      </div>
+
+      <div className="h-1 w-full bg-gray-100">
+        <div
+          className={`h-full ${isSuccess ? "bg-green-500" : "bg-red-500"}`}
+          style={{
+            animation: "toast-progress 3s linear forwards",
+          }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes toast-progress {
+          from { width: 100%; }
+          to { width: 0%; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function AddCard({ onClose, onCardAdded, card }) {
   const [title] = useState(card?.title || "");
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (type, message) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const handleImageChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -37,7 +91,7 @@ function AddCard({ onClose, onCardAdded, card }) {
         await api.put(`/cards/${card.id}`, formData);
       } else {
         if (files.length === 0) {
-          alert("Selecione ao menos uma imagem");
+          showToast("error", "Please select at least one image");
           return;
         }
 
@@ -53,14 +107,30 @@ function AddCard({ onClose, onCardAdded, card }) {
       }
 
       onCardAdded();
-      onClose();
+      showToast(
+        "success",
+        card ? "Card updated successfully!" : "Card added successfully!",
+      );
+
+      setTimeout(() => {
+        onClose();
+      }, 1200);
     } catch (error) {
-      console.error("Erro ao salvar card:", error);
+      console.error("Error saving card:", error);
+      showToast("error", "Failed to save the card. Please try again.");
     }
   };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+      {toast && (
+        <Toast
+          type={toast.type}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
+
       <div
         className="w-full max-w-xs sm:max-w-md mx-4 rounded-2xl p-4 sm:p-6"
         style={{ backgroundColor: "#3E3259" }}

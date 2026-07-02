@@ -10,6 +10,58 @@ const cormorant = { fontFamily: "Cormorant", fontWeight: "700" };
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+function Toast({ type, message, onClose }) {
+  const isSuccess = type === "success";
+
+  return (
+    <div className="fixed top-6 right-6 z-[100] w-[320px] bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="flex items-center gap-3 px-4 py-3">
+        <div
+          className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-white text-sm ${
+            isSuccess ? "bg-green-500" : "bg-red-500"
+          }`}
+        >
+          {isSuccess ? "✓" : "!"}
+        </div>
+
+        <span
+          className="text-gray-800 flex-1"
+          style={{
+            fontFamily: "Cormorant",
+            fontWeight: "600",
+            fontSize: "1.05rem",
+          }}
+        >
+          {message}
+        </span>
+
+        <button
+          onClick={onClose}
+          className="text-gray-400 hover:text-gray-600 text-lg leading-none flex-shrink-0"
+        >
+          &#10005;
+        </button>
+      </div>
+
+      <div className="h-1 w-full bg-gray-100">
+        <div
+          className={`h-full ${isSuccess ? "bg-green-500" : "bg-red-500"}`}
+          style={{
+            animation: "toast-progress 3s linear forwards",
+          }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes toast-progress {
+          from { width: 100%; }
+          to { width: 0%; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function CardsList() {
   const isAdmin = localStorage.getItem("admin") === "true";
 
@@ -23,6 +75,15 @@ function CardsList() {
   const [newImage, setNewImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [newTitle, setNewTitle] = useState("");
+
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (type, message) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   async function loadCards() {
     try {
@@ -53,13 +114,17 @@ function CardsList() {
     return name.includes("up");
   }
 
-  async function deleteCard(id) {
-    if (!confirm("Deletar este card?")) return;
+  async function confirmDelete() {
+    if (!deleteConfirm) return;
     try {
-      await api.delete(`/cards/${id}`);
+      await api.delete(`/cards/${deleteConfirm._id}`);
       loadCards();
+      showToast("success", "Card deleted successfully!");
     } catch (error) {
       console.error("Erro ao deletar card:", error);
+      showToast("error", "Failed to delete the card. Please try again.");
+    } finally {
+      setDeleteConfirm(null);
     }
   }
 
@@ -78,8 +143,10 @@ function CardsList() {
       setSelectedCard(null);
       setNewTitle("");
       loadCards();
+      showToast("success", "Card updated successfully!");
     } catch (error) {
       console.error("Erro ao atualizar card:", error);
+      showToast("error", "Failed to update the card. Please try again.");
     }
   }
 
@@ -145,6 +212,14 @@ function CardsList() {
       className="w-full min-h-screen px-12 py-6 flex flex-col"
       style={{ backgroundColor: "#3E3259" }}
     >
+      {toast && (
+        <Toast
+          type={toast.type}
+          message={toast.message}
+          onClose={() => setToast(null)}
+        />
+      )}
+
       <div className="flex-1">
         <div className="relative mb-8">
           <div className="flex justify-center">
@@ -279,7 +354,7 @@ function CardsList() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteCard(card._id);
+                      setDeleteConfirm(card);
                     }}
                     className="bg-red-600 text-white text-xs px-2 py-1 rounded w-12 text-center hover:bg-red-800 transition-colors duration-200"
                     style={cormorant}
@@ -293,7 +368,10 @@ function CardsList() {
         </div>
       </div>
 
-      <footer className="mt-10 pb-4 text-center" style={{ ...cormorant, fontSize: "1.09rem", color: "#9B8AB8" }}>
+      <footer
+        className="mt-10 pb-4 text-center"
+        style={{ ...cormorant, fontSize: "1.09rem", color: "#9B8AB8" }}
+      >
         by scriptlver
       </footer>
 
@@ -410,17 +488,17 @@ function CardsList() {
 
       {editingCard && (
         <div
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[60]"
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[60] px-4"
           onClick={() => setEditingCard(null)}
         >
           <div
-            className="bg-[#3E3259] p-6 rounded-xl w-[500px]"
+            className="bg-[#3E3259] p-4 sm:p-6 rounded-xl w-full max-w-[500px]"
             onClick={(e) => e.stopPropagation()}
           >
             <img
               src="/src/images/AddCard/edit-card.png"
               alt="Edit Card"
-              className="mb-4 w-42"
+              className="mb-4 w-32 sm:w-42"
             />
 
             <input
@@ -432,7 +510,7 @@ function CardsList() {
               style={cormorant}
             />
 
-            <div className="rounded-xl h-64 flex items-center justify-center overflow-hidden mb-4">
+            <div className="rounded-xl h-40 sm:h-64 flex items-center justify-center overflow-hidden mb-4">
               {previewImage && (
                 <img
                   src={previewImage}
@@ -478,6 +556,54 @@ function CardsList() {
                   setPreviewImage("");
                   setNewTitle("");
                 }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteConfirm && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] px-4"
+          onClick={() => setDeleteConfirm(null)}
+        >
+          <div
+            className="bg-[#3E3259] p-6 rounded-xl w-full max-w-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p
+              className="text-white text-center mb-4"
+              style={{ ...cormorant, fontSize: "1.3rem" }}
+            >
+              Delete this card?
+            </p>
+
+            <div
+              className="rounded-lg overflow-hidden mb-6"
+              style={{ aspectRatio: "1000 / 571" }}
+            >
+              <img
+                src={`http://localhost:3000/uploads/${deleteConfirm.image}`}
+                alt={formatFileName(deleteConfirm.image)}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={confirmDelete}
+                className="px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors duration-200"
+                style={cormorant}
+              >
+                Delete
+              </button>
+
+              <button
+                onClick={() => setDeleteConfirm(null)}
+                className="px-5 py-2 rounded-xl bg-gray-500 text-white hover:bg-gray-700 transition-colors duration-200"
+                style={cormorant}
               >
                 Cancel
               </button>
