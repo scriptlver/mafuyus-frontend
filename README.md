@@ -116,5 +116,3 @@ npm run dev
 * **data management**: full persistence handled by **mongodb**.
 * **testing**: all crud operations were validated via **postman** to ensure stability and reliability.
 * **purpose**: project developed for portfolio, blending technology and art direction.
-
-design by scriptlver 💜
