@@ -368,11 +368,19 @@ function CardsList() {
         </div>
       </div>
 
-      <footer
-        className="mt-10 pb-4 text-center"
-        style={{ ...cormorant, fontSize: "1.09rem", color: "#9B8AB8" }}
-      >
-        by scriptlver
+      <footer className="mt-10 py-4 text-center">
+        <span style={{ ...cormorant, fontSize: "1.09rem", color: "#C9BEDE" }}>
+          by{" "}
+          <a
+            href="https://github.com/scriptlver"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors duration-200"
+            style={{ ...cormorant, color: "#C9BEDE" }}
+          >
+            scriptlver
+          </a>
+        </span>
       </footer>
 
       {showModal && (
