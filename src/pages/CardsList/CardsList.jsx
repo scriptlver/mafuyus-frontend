@@ -281,9 +281,8 @@ function CardsList() {
           </button>
 
           {ALPHABET.map((letter) => {
-            const available = availableLetters.has(letter);
-            if (!available) return null;
             const isActive = activeLetter === letter;
+
             return (
               <button
                 key={letter}
@@ -300,6 +299,7 @@ function CardsList() {
                   border: "none",
                   cursor: "pointer",
                   padding: 0,
+                  opacity: availableLetters.has(letter) ? 1 : 0.3,
                 }}
               >
                 {letter}
@@ -341,9 +341,7 @@ function CardsList() {
                     onClick={(e) => {
                       e.stopPropagation();
                       setEditingCard(card);
-                     setPreviewImage(
-  `${BACKEND_URL}/uploads/${card.image}`,
-);
+                      setPreviewImage(`${BACKEND_URL}/uploads/${card.image}`);
                       setNewTitle(card.name || formatFileName(card.image));
                     }}
                     className="bg-[#624F8C] text-white text-xs px-2 py-1 rounded w-10 text-center hover:bg-[#3d2f5e] transition-colors duration-200"
