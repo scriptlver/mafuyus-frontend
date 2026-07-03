@@ -1,102 +1,85 @@
-# 💜🔮 mafuyu's frontend 🔮
-frontend developed for the mafuyu cards project, a site dedicated to mafuyu asahina from project sekai. this interface manages the user experience and data consumption using a modern and responsive architecture. 💜
+# 💜🔮 mafuyu's backend 🔮
+backend developed for the mafuyu cards project, responsible for managing and serving all card data for mafuyu asahina from project sekai. this api handles authentication-free data operations, image uploads, and persistence using a modern node.js architecture. 💜
 
 ---
 
-## 🔮 project preview
-here are some records of the interface:
-
-<div align="center">
-  <img src="src/images/Preview/preview.png" width="700px" alt="mafuyus frontend preview">
-</div>
+## 🔗 live demo
+* **💜 frontend:** [mafuyus-frontend.vercel.app](https://mafuyus-frontend.vercel.app/)
+* **🔮 backend api:** [mafuyus-backend.onrender.com](https://mafuyus-backend.onrender.com)
 
 ---
 
-## 💜 look & feel
-the project was built with a focus on **ui/ux aesthetic**, using a soft purple color palette and elegant typography to reflect mafuyu asahina's identity.
+## 💜 overview
+the api was built with a focus on **simplicity and reliability**, providing clean routes for card management and serving as the data layer for the mafuyus frontend.
 
-* **💜 interactivity:** smooth transitions and visual feedback while browsing cards.
-* **💜 design:** inspired by mafuyu asahina's project sekai card art.
-* **💜 responsiveness:** adapted for different screen sizes.
-* **💜 organization:** cards displayed in alphabetical order, showing only base (non-evolved) versions.
+* **💜 crud operations:** full create, read, update and delete support for cards.
+* **💜 image uploads:** handles card image uploads with multer.
+* **💜 database:** persistent storage powered by mongodb.
+* **💜 organization:** clean separation between routes, models, services and middleware.
 
 ---
 
 ## 🔮 technologies used
-* **react**: core of the project for high performance and dynamic components.
-* **vite**: fast build tool and development server.
-* **javascript**: main programming language of the application.
-* **tailwind css**: utility-first styling for a custom, modern layout.
-* **axios**: integration with the backend for api consumption.
-* **mongodb**: cloud database for data persistence.
+* **node.js**: javascript runtime for the server.
+* **express**: web framework for building the api routes.
+* **mongodb**: database used for data persistence.
+* **mongoose**: object modeling for mongodb.
+* **multer**: middleware for handling image uploads.
 * **postman**: rigorous testing and validation of all api routes.
-* **eslint**: code quality and consistency enforcement.
+* **dotenv**: environment variable management.
 
 ---
 
-## 🔒 site features
+## 🔒 api features
 | feature | description |
 | :--- | :--- |
-| **view cards** | complete listing of mafuyu asahina's cards in alphabetical order. |
-| **card details** | view detailed information for each individual card. |
-| **base cards only** | displays only normal (non-evolved) card versions. |
-| **admin panel** | exclusive admin functions for full card management. |
-| **add card** | admin can create new cards with images and details. |
-| **edit card** | admin can update existing card information in real time. |
-| **delete card** | admin can permanently remove a card from the collection. |
+| **get cards** | retrieves the complete list of cards. |
+| **get card by id** | retrieves detailed information for a single card. |
+| **create card** | adds a new card with image upload support. |
+| **update card** | edits an existing card's information. |
+| **delete card** | permanently removes a card from the database. |
+| **image handling** | sanitizes filenames and builds full image urls for uploaded card art. |
 
 ---
 
 ## 🔮 project structure
 ```
-mafuyus-frontend/
-├── public/
-│   └── favicon.ico
+mafuyus-backend/
 ├── src/
-│   ├── assets/
-│   │   ├── components/
-│   │   └── images/
-│   │       ├── AddCard/
-│   │       ├── Cards/
-│   │       ├── CardsList/
-│   │       ├── Layout/
-│   │       └── Preview/
-│   ├── pages/
-│   │   ├── CardsList/
-│   │   │   └── CardsList.jsx
-│   │   └── Home/
-│   │       └── Home.jsx
+│   ├── config/
+│   │   └── database/
+│   │       └── connection.js
+│   ├── middleware/
+│   ├── models/
+│   │   └── Card.js
 │   ├── routes/
+│   │   └── card.routes.js
 │   ├── services/
-│   ├── App.css
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
+│   │   └── api.js
+│   └── uploads/
+├── .env
 ├── .gitattributes
 ├── .gitignore
-├── eslint.config.js
-├── index.html
 ├── package-lock.json
 ├── package.json
 ├── README.md
-└── vite.config.js
+└── server.js
 ```
 
 ---
 
 ## 💜 repositories
-* **frontend:** [https://github.com/scriptlver/mafuyus-frontend](https://github.com/scriptlver/mafuyus-frontend)
 * **backend:** [https://github.com/scriptlver/mafuyus-backend](https://github.com/scriptlver/mafuyus-backend)
+* **frontend:** [https://github.com/scriptlver/mafuyus-frontend](https://github.com/scriptlver/mafuyus-frontend)
 
 ---
 
 ## 🔮 local installation
-to run the interface on your machine:
+to run the api on your machine:
 
 ### 1. clone the repository
 ```bash
-git clone https://github.com/scriptlver/mafuyus-frontend.git
-cd mafuyus-frontend
+git clone https://github.com/scriptlver/mafuyus-backend.git
 ```
 
 ### 2. install dependencies
@@ -104,15 +87,18 @@ cd mafuyus-frontend
 npm install
 ```
 
-### 3. run the project
+### 3. set up environment variables
+create a `.env` file with your mongodb connection string and other required variables.
+
+### 4. run the project
 ```bash
-npm run dev
+npm start
 ```
 
 ---
 
 ## 💜 final notes 🔮
-* **language**: the entire site was built in english.
+* **language**: the entire project was built in english.
 * **data management**: full persistence handled by **mongodb**.
 * **testing**: all crud operations were validated via **postman** to ensure stability and reliability.
-* **purpose**: project developed for portfolio, blending technology and art direction.
+* **purpose**: project developed for portfolio, serving as the data layer for the mafuyus frontend.
