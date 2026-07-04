@@ -9,7 +9,6 @@ import cardsListTitle from "../../images/CardsList/cards-list.png";
 const cormorant = { fontFamily: "Cormorant", fontWeight: "700" };
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-const BACKEND_URL = "https://mafuyus-backend.onrender.com";
 
 function Toast({ type, message, onClose }) {
   const isSuccess = type === "success";
@@ -320,8 +319,8 @@ function CardsList() {
                 style={{ aspectRatio: "1000 / 571" }}
               >
                 <img
-                  src={`${BACKEND_URL}/uploads/${card.image}`}
-                  alt={formatFileName(card.image)}
+                  src={card.image}
+                  alt={card.name || formatFileName(card.image)}
                   className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
                 />
 
@@ -341,7 +340,7 @@ function CardsList() {
                     onClick={(e) => {
                       e.stopPropagation();
                       setEditingCard(card);
-                      setPreviewImage(`${BACKEND_URL}/uploads/${card.image}`);
+                      setPreviewImage(card.image);
                       setNewTitle(card.name || formatFileName(card.image));
                     }}
                     className="bg-[#624F8C] text-white text-xs px-2 py-1 rounded w-10 text-center hover:bg-[#3d2f5e] transition-colors duration-200"
@@ -415,8 +414,8 @@ function CardsList() {
               </button>
 
               <img
-                src={`${BACKEND_URL}/uploads/${selectedCard.image}`}
-                alt={selectedCard.name}
+                src={selectedCard.image}
+                alt={selectedCard.name || formatFileName(selectedCard.image)}
                 className="flex-1 max-h-[35vh] sm:max-h-[60vh] object-contain rounded"
               />
 
@@ -461,8 +460,8 @@ function CardsList() {
                 {filteredCards.map((card) => (
                   <img
                     key={card._id}
-                    src={`${BACKEND_URL}/uploads/${card.image}`}
-                    alt={formatFileName(card.image)}
+                    src={card.image}
+                    alt={card.name || formatFileName(card.image)}
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedCard(card);
@@ -592,8 +591,8 @@ function CardsList() {
               style={{ aspectRatio: "1000 / 571" }}
             >
               <img
-                src={`${BACKEND_URL}/uploads/${deleteConfirm.image}`}
-                alt={formatFileName(deleteConfirm.image)}
+                src={deleteConfirm.image}
+                alt={deleteConfirm.name || formatFileName(deleteConfirm.image)}
                 className="w-full h-full object-cover"
               />
             </div>
